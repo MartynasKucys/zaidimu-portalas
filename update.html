@@ -9,19 +9,7 @@
 <body>
     <div class="container">
         <form class="row">
-            <h1 class="text-light border-bottom border-secondary p-2">Registracija</h1>
-            <div class="col-6 p-2">
-                <label for="name">Naudotojo vardas: *</label>
-                <input type="text" class="form-control bg-dark text-light">
-            </div>
-            <div class="col-6 p-2">
-                <label for="name">Naudotojo slaptažodis: *</label>
-                <input type="password" class="form-control bg-dark text-light">
-            </div>
-            <div class="col-6 p-2">
-                <label for="name">Naudotojo el. paštas: *</label>
-                <input type="email" class="form-control bg-dark text-light">
-            </div>
+            <h1 class="text-light border-bottom border-secondary p-2">Atnaujinti profilį</h1>
             <div class="col-6 p-2">
                 <label for="name">Naudotojo kalba:</label>
                 <input type="text" class="form-control bg-dark text-light">
@@ -48,15 +36,6 @@
                 </select>
             </div>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo lytis:*</label>
-                <select class="form-control bg-dark text-light">
-                    <option value="">Pasirinkite lytį..</option>
-                    <option value>Vyras</option>
-                    <option>Moteris</option>
-                    <option>Kita</option>
-                </select>
-            </div>
-            <div class="col-6 p-2">
                 <label for="name">Trumpas aprašymas:</label>
                 <input type="text" class="form-control bg-dark text-light">
             </div>
@@ -65,7 +44,7 @@
                 <textarea class="form-control bg-dark text-light"></textarea>
             </div>
             <div class="col-12 p-2 d-flex justify-content-end">
-                <button class="btn btn-primary bg-dark border-secondary" onclick="alert('Sekmingai užsiregstravote');">Užsiregistruoti</button>
+                <button class="btn btn-primary bg-dark border-secondary" onclick="window.location.href='index.html'; return false;">Atnaujinti</button>
             </div>
         </form>
     </div>

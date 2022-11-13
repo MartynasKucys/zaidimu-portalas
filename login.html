@@ -8,19 +8,18 @@
     </head>
 <body>
     <div class="container">
+        <h1 class="text-light border-bottom border-secondary p-2">Prisijungimas</h1>
         <form class="row">
-            <h1 class="text-light border-bottom border-secondary p-2">Pakelti vartotoją - Vartotojas</h1>
-            <div class="col-12 p-2">
-                <label class="p-2" for="name">Į kurią rolę norite pakelti vartotoją?</label>
-                <select class="form-control bg-dark text-light">
-                    <option value="">Pasirinkite rolę...</option>
-                    <option value="">Administratorius</option>
-                 </select>
-                
+            <div class="col-6 p-2">
+                <label for="name">Naudotojo vardas:</label>
+                <input type="text" class="form-control bg-dark text-light">
             </div>
-            
+            <div class="col-6 p-2">
+                <label for="name">Naudotojo slaptažodis:</label>
+                <input type="password" class="form-control bg-dark text-light">
+            </div>
             <div class="col-12 p-2 d-flex justify-content-end">
-                <button class="btn btn-primary text-light bg-dark border-secondary" onclick="alert('Ar norite palikti komentarą?');"><a class="text-light" href="comment.html">Pakelti</a></button>
+                <button class="btn btn-primary bg-dark border-secondary">Prisijungti</button>
             </div>
         </form>
     </div>
