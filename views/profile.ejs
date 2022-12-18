@@ -12,19 +12,19 @@
             <div class="col-3">
                 <div>
                     <img width="150px" src="assets/image/avatar.jpg">
-                    <p class="text-light"><b>Vartotojas</b></p>
-                    <p class="text-light">Lygis 0</p>
-                    <p class="text-light">Lytis Vyras</p>
-                    <p class="text-light">Lietuva</p>
-                    <p class="text-light">Tai yra trumpas aprasymas</p>
-                    <p class="text-light">Ūgis 1.85m</p>
-                    <p class="text-light">Svoris 80kg</p>
-                    <p class="text-light">Rudaakis</p>
-                    <p class="text-light">Lietuvių</p>
-                    <p class="text-light">Plaukai - šviesūs</p>
-                    <a class="text-light col-12" href="power.html">Pakelti į aukštesnę rolę.</a>
-                    <a class="text-light col-12" href="update.html">Atnaujinti profilį.</a>
-                    <a class="text-light col-12" href="delete.html">Ištrinti profilį.</a>
+                    <p class="text-light"><b><%= name %></b></p>
+                    <p class="text-light">Lygis <%= lvl %></p>
+                    <p class="text-light">Lytis <%= gender %></p>
+                    <p class="text-light"><%= country %></p>
+                    <p class="text-light"><%= short_desc %></p>
+                    <p class="text-light">Ūgis <%= height %>m</p>
+                    <p class="text-light">Svoris <%= width %>kg</p>
+                    <p class="text-light">Akys - <%= eyes %></p>
+                    <p class="text-light">Kalba - <%= language %></p>
+                    <p class="text-light">Plaukai - <%= hair %></p>
+                    <a class="text-light col-12" href="/power">Pakelti į aukštesnę rolę.</a>
+                    <a class="text-light col-12" href="/update">Atnaujinti profilį.</a>
+                    <a class="text-light col-12" href="/delete?id=<%= id %>">Ištrinti profilį.</a>
                     <a class="text-light col-12" href="favoriteGroup.html">Mėgstamiausių grupės.</a>
                     <h5 class="text-light p-2 border-bottom border-secondary">Draugai</h5>
                     <div class="col-12 p-2 text-center row">
