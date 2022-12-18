@@ -4,7 +4,7 @@ const express = require('express'); //Import the express dependency
 const app = express();              //Instantiate an express app, the main work horse of this server
 const port = 5000;                  //Save the port number where your server will be listening
 const {getFavoriteGroup, addFavorite,removeFavoriteGame,removeFavoriteGroup,addToFavoritesOtherGroup,removeFavoriteOtherGroup} = require("./control/favoriteController");
-const {getLoginPage, getRegisterPage, getUpdatePage,
+const {getLoginPage, getRegisterPage, getUpdatePage, logoutPage,
     getDeletePage, registerNewUser, getProfilePage, loginUser, deleteUser, updateUser, getPowerPage, powerUser, getCommentPage, saveComment} = require("./control/userController");
 const {getGamePage, getGameCreationPage, getGameEditPage, getGameRemovePage, createNewGame, editGame, deleteGame} = require("./control/gameController");
 const bodyParser = require("body-parser");
@@ -64,7 +64,7 @@ app.get("/update", getUpdatePage);
 app.get("/delete", getDeletePage);
 app.get("/power", getPowerPage);
 app.get("/comment", getCommentPage);
-
+app.get("/logout", logoutPage);
 // Game management sub-system
 app.get("/game", getGamePage);
 app.get("/game_create", getGameCreationPage);

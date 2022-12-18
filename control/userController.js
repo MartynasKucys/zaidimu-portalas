@@ -31,6 +31,11 @@ let getDeletePage = (req, res) => {
     return res.render("delete.ejs", {id: req.query.id, msg: ""});
 }  
 
+let logoutPage = (req, res) => {
+    req.session.destroy();
+    
+    return res.redirect('/');
+}
 let getPowerPage = (req, res) => {
     if(req.session.userRole != 1) {
         return res.redirect("/");
@@ -200,5 +205,6 @@ module.exports = {
     updateUser: updateUser,
     powerUser: powerUser,
     getCommentPage: getCommentPage,
-    saveComment: saveComment
+    saveComment: saveComment,
+    logoutPage: logoutPage
 }
