@@ -3,7 +3,7 @@ const sql = require("./configs/connect.js");
 const express = require('express'); //Import the express dependency
 const app = express();              //Instantiate an express app, the main work horse of this server
 const port = 5000;                  //Save the port number where your server will be listening
-const {getFavoriteGroup, addFavorite} = require("./control/favoriteController");
+const {getFavoriteGroup, addFavorite,removeFavoriteGame,removeFavoriteGroup} = require("./control/favoriteController");
 const {getLoginPage, getRegisterPage, registerNewUser, getProfilePage, loginUser} = require("./control/userController");
 const {getGamePage, getGameCreationPage, createNewGame} = require("./control/gameController");
 const bodyParser = require("body-parser");
@@ -44,6 +44,7 @@ app.get('/', (req, res) => {        //get requests to the root ("/") will route 
         console.log(games);
         res.render('index.ejs', {root: __dirname, id: req.session.userID, Games: games});
     }); 
+    res.render('index.ejs', {root: __dirname, id: req.session.userID});  
 });
 
 app.use(bodyParser.json());
@@ -51,6 +52,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // Favourites sub-system
 app.get("/favoriteGroup", getFavoriteGroup);
+app.post("/addFavoriteGroup", addFavorite);
+app.post("/removeFavoriteGame",removeFavoriteGame);
+app.post("/removeFavoriteGroup", removeFavoriteGroup);
+
+
+app.get("/delete", getDeletePage);
 
 // User management sub-system
 app.get("/login", getLoginPage);
@@ -59,6 +66,8 @@ app.get("/register", getRegisterPage);
 
 // Game management sub-system
 app.get("/game", getGamePage);
+app.get("/register", getRegisterPage);
+app.get("/update", getUpdatePage);
 app.get("/game_create", getGameCreationPage);
 
 // POSTs
@@ -66,9 +75,9 @@ app.post("/addFavorite", addFavorite);
 
 app.post("/register", registerNewUser);
 app.post("/login", loginUser);
-
+app.post("/delete", deleteUser);
+app.post("/update", updateUser);
 app.post("/game_create", createNewGame);
-
 
 
 

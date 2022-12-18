@@ -10,33 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="col-3">
-                <div>
-                    <img width="150px" src="assets/image/avatar.jpg">
-                    <p class="text-light"><b>Vartotojas</b></p>
-                    <p class="text-light">Lygis 0</p>
-                    <p class="text-light">Lytis Vyras</p>
-                    <p class="text-light">Lietuva</p>
-                    <p class="text-light">Tai yra trumpas aprasymas</p>
-                    <p class="text-light">Ūgis 1.85m</p>
-                    <p class="text-light">Svoris 80kg</p>
-                    <p class="text-light">Rudaakis</p>
-                    <p class="text-light">Lietuvių</p>
-                    <p class="text-light">Plaukai - šviesūs</p>
-                    <a class="text-light col-12" href="power.html">Pakelti į aukštesnę rolę.</a>
-                    <a class="text-light col-12" href="update.html">Atnaujinti profilį.</a>
-                    <a class="text-light col-12" href="delete.html">Ištrinti profilį.</a>
-                    <a class="text-light col-12" href="profile.html">Sugrišti</a>
-                    <h5 class="text-light p-2 border-bottom border-secondary">Draugai</h5>
-                    <div class="col-12 p-2 text-center row">
-                        <img class="col-6" src="assets/image/avatar.jpg">
-                        <img class="col-6" src="assets/image/avatar.jpg">
-                    </div>
-                    <div class="col-12 p-2 text-center row">
-                        <img class="col-6 p-2" src="assets/image/avatar.jpg">
-                        <img class="col-6 p-2" src="assets/image/avatar.jpg">
-                    </div>
 
-                </div>
             </div>
             <div class="col-9">
                 <div class="col-12 border-bottom border-secondary">
@@ -45,75 +19,26 @@
                 
                 </div>
 
-                <form action="/addFavorite", method="post">
+                <form action="/addFavoriteGroup", method="post">
                     <input type="text" value="Grupes pavadinimas", name="grupeName">
                     <button>Sukurti nauja grupe</button>
                 </form>
 
-                <div  class="col-12 border-bottom border-secondary">
-                    <p class="text-light p-2 text-size" style="font-size: 40px;">"Mano grupė 1" 
-                        <a href="" style="font-size:20px;">Išstrinti grupe</a>
-                        <a href="" style="font-size:20px;">Pasidalinti</a>
-                        <a href="" style="font-size:20px;">Pažymėti kaip mėgstamiausią</a>
-                     </p>
-
-                    <table class="table"style="color:white">
-
-                        <tr>
-                            <th>Nr.</th>
-                            <th>Pavadinimas</th>
-                            <th>Pridėjimo data</th>
-                            <th>Nuoroda</th>
-                            <th></th>
-                        </tr>
-
-                        <tr>
-                            <td>1</td>
-                            <td>žaidimas 1</td>
-                            <td>2022-08-4</td>
-                            <td><a href=""> į puslapį</a></td>
-                            <td> <a href="">Pašalinti</a></td>
-                        </tr>
-
-
-                        <tr>
-                            <td>2</td>
-                            <td>žaidimas 2</td>
-                            <td>2022-08-23</td>
-                            <td><a href=""> į puslapį</a></td>
-                            <td> <a href="">Pašalinti</a></td>
-
-                        </tr>
-
-
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>žaidimas 3</td>
-                            <td>2022-08-12</td>
-                            <td><a href=""> į puslapį</a></td>
-                            <td> <a href="">Pašalinti</a></td>
-
-                        </tr>
-
-
-
-                    </table>
-
-
-                </div>
-
+                <%for (var i = 0; i<data.length; i++){%>
 
                 <div  class="col-12 border-bottom border-secondary">
-                    <p class="text-light p-2 text-size" style="font-size: 40px;">"Mano grupė 2"
-                        <a href="" style="font-size:20px;">Išstrinti grupe</a>
-                        <a href="" style="font-size:20px;">Pasidalinti</a>
-                        <a href="" style="font-size:20px;">Pažymėti kaip mėgstamiausią</a>
 
-
-
+                    <p class="text-light p-2 text-size" style="font-size: 40px;"> "<%=data[i]["groupName"] %>"
+                        <form action="/removeFavoriteGroup" method="post">
+                            <button style="font-size:20px;"name="removeGroupButton" value="<%= data[i]["groupId"] %>"
+                            >Pašalinti</button>
+                        </form>
+                        <form action="/share" method="post">
+                            <button style="font-size:20px;">Pasidalinti</button>
+                        </form>
                     </p>
 
+
                     <table class="table"style="color:white">
 
                         <tr>
@@ -124,42 +49,45 @@
                             <th></th>
                         </tr>
 
-                        <tr>
-                            <td>1</td>
-                            <td>žaidimas 3</td>
-                            <td>2022-08-4</td>
-                            <td><a href=""> į puslapį</a></td>
-                            <td> <a href="">Pašalinti</a></td>
+                        <% if (i < data.length && data[i]["gameName"] != null){ %> 
+                            <tr>
+                                <th><%= data[i]["nr"] %></th>
+                                <th><%= data[i]["gameName"]%></th>
+                                <th><%= data[i]["date"] // TODO link to game page %></th>
+                                <th>Nuoroda</th>
+                                <th> <form action="/removeFavoriteGame" method="post">
+                                    <button value="<%=data[i]["nr"]%>|<%=data[i]["groupId"]%>", name = "gameId">Pašalinti</button>
+                                </form></th>
+                            </tr>
 
-                        </tr>
+                        <% var currentId = data[i]["groupId"] %> 
+                        <% while (currentId === data[i+1]["groupId"]){%>
+
+                            <% i++ %>
+                            <tr>
+                                <th><%= data[i]["nr"] %></th>
+                                <th><%= data[i]["gameName"]%></th>
+                                <th><%= data[i]["date"] // TODO link to game page %></th>
+                                <th>Nuoroda</th> 
+                                <th> <form action="/removeFavoriteGame" method="post">
+                                    <button value="<%=data[i]["nr"]%>|<%=data[i]["groupId"]%>" name = "gameId">Pašalinti</button>
+                                </form></th>
+                            </tr>
 
 
-                        <tr>
-                            <td>2</td>
-                            <td>žaidimas 6</td>
-                            <td>2022-08-23</td>
-                            <td><a href=""> į puslapį</a></td>
-                            <td> <a href="">Pašalinti</a></td>
-
-                        </tr>
-
+                        <% } %>  
+                        <% } %>  
 
                         
-                        <tr>
-                            <td>3</td>
-                            <td>žaidimas 1</td>
-                            <td>2022-08-12</td>
-                            <td><a href=""> į puslapį</a></td>
-                            <td> <a href="">Pašalinti</a></td>
-
-                        </tr>
-
-
-
                     </table>
 
 
+                    <% } %>  
+
                 </div>
+
+
+
 
                 <div  class="col-12 border-bottom border-secondary">
                     <p class="text-light p-2 text-size" style="font-size: 40px;">"Kito grupė 1"
