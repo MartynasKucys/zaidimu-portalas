@@ -12,35 +12,35 @@
             <h1 class="text-light border-bottom border-secondary p-2">Registracija</h1>
             <div class="col-6 p-2">
                 <label for="name">Naudotojo vardas: *</label>
-                <input type="text" class="form-control bg-dark text-light">
+                <input name="name" type="text" class="form-control bg-dark text-light">
             </div>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo slaptažodis: *</label>
-                <input type="password" class="form-control bg-dark text-light">
+                <label for="password">Naudotojo slaptažodis: *</label>
+                <input name="password" type="password" class="form-control bg-dark text-light">
             </div>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo el. paštas: *</label>
-                <input type="email" class="form-control bg-dark text-light">
+                <label for="email">Naudotojo el. paštas: *</label>
+                <input name="email" type="email" class="form-control bg-dark text-light">
             </div>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo kalba:</label>
-                <input type="text" class="form-control bg-dark text-light">
+                <label for="language">Naudotojo kalba:</label>
+                <input name="language" type="text" class="form-control bg-dark text-light">
             </div>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo ūgis (metrais):</label>
-                <input type="text" class="form-control bg-dark text-light">
+                <label for="height">Naudotojo ūgis (metrais):</label>
+                <input name="height" type="text" class="form-control bg-dark text-light">
             </div>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo svoris (kilogramais):</label>
-                <input type="text" class="form-control bg-dark text-light">
+                <label for="width">Naudotojo svoris (kilogramais):</label>
+                <input name="width" type="text" class="form-control bg-dark text-light">
             </div>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo plaukų spalva:</label>
-                <input type="text" class="form-control bg-dark text-light">
+                <label for="hair_col">Naudotojo plaukų spalva:</label>
+                <input name="hair_col" type="text" class="form-control bg-dark text-light">
             </div>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo akių spalva:</label>
-                <select class="form-control bg-dark text-light">
+                <label for="eye_col">Naudotojo akių spalva:</label>
+                <select name="eye_col" class="form-control bg-dark text-light">
                     <option value="">Pasirinkite akių spalvą...</option>
                     <option value>Žalia</option>
                     <option>Ruda</option>
@@ -48,8 +48,8 @@
                 </select>
             </div>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo lytis:*</label>
-                <select class="form-control bg-dark text-light">
+                <label for="gender">Naudotojo lytis:*</label>
+                <select name="gender" class="form-control bg-dark text-light">
                     <option value="">Pasirinkite lytį..</option>
                     <option value>Vyras</option>
                     <option>Moteris</option>
@@ -57,12 +57,12 @@
                 </select>
             </div>
             <div class="col-6 p-2">
-                <label for="name">Trumpas aprašymas:</label>
-                <input type="text" class="form-control bg-dark text-light">
+                <label for="short_desc">Trumpas aprašymas:</label>
+                <input name="short_desc" type="text" class="form-control bg-dark text-light">
             </div>
             <div class="col-12 p-2">
-                <label for="name">Naudotojo aprašymas:</label>
-                <textarea class="form-control bg-dark text-light"></textarea>
+                <label for="desc">Naudotojo aprašymas:</label>
+                <textarea name="desc" class="form-control bg-dark text-light"></textarea>
             </div>
             <div class="col-12 p-2 d-flex justify-content-end">
                 <button class="btn btn-primary bg-dark border-secondary" onclick="alert('Sekmingai užsiregstravote');">Užsiregistruoti</button>
