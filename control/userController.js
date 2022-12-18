@@ -146,7 +146,6 @@ let getProfilePage = (req,res) => {
 
 let registerNewUser = (req, res) => {
     try {
-        console.log(req.data);
         let newUser = {
             name: req.body.name,
             password: req.body.password,
