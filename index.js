@@ -6,7 +6,7 @@ const port = 5000;                  //Save the port number where your server wil
 const {getFavoriteGroup, addFavorite,removeFavoriteGame,removeFavoriteGroup,addToFavoritesOtherGroup,removeFavoriteOtherGroup} = require("./control/favoriteController");
 const {getLoginPage, getRegisterPage, getUpdatePage,
     getDeletePage, registerNewUser, getProfilePage, loginUser, deleteUser, updateUser, getPowerPage, powerUser, getCommentPage, saveComment} = require("./control/userController");
-const {getGamePage, getGameCreationPage, getGameEditPage, createNewGame, editGame} = require("./control/gameController");
+const {getGamePage, getGameCreationPage, getGameEditPage, getGameRemovePage, createNewGame, editGame, deleteGame} = require("./control/gameController");
 const bodyParser = require("body-parser");
 const sessions = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -52,29 +52,26 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(fileUpload());
 
-
+// Favourites sub-system
 app.get("/favoriteGroup", getFavoriteGroup);
-app.post("/addFavoriteGroup", addFavorite);
-app.post("/removeFavoriteGame",removeFavoriteGame);
-app.post("/removeFavoriteGroup", removeFavoriteGroup);
-app.post("/addToFavoritesOtherGroup", addToFavoritesOtherGroup);
-app.post("/removeFavoriteOtherGroup", removeFavoriteOtherGroup);
 
-
+// User management sub-system
 app.get("/delete", getDeletePage);
-
+app.get("/register", getRegisterPage);
 app.get("/login", getLoginPage);
 app.get("/profile", getProfilePage);
-
-app.get("/game", getGamePage);
-app.get("/register", getRegisterPage);
 app.get("/update", getUpdatePage);
 app.get("/delete", getDeletePage);
 app.get("/power", getPowerPage);
 app.get("/comment", getCommentPage);
+
+// Game management sub-system
 app.get("/game", getGamePage);
 app.get("/game_create", getGameCreationPage);
 app.get("/game_edit", getGameEditPage);
+app.get("/game_remove", getGameRemovePage);
+
+// POSTs
 app.post("/register", registerNewUser);
 app.post("/login", loginUser);
 app.post("/addFavorite", addFavorite);
@@ -84,6 +81,12 @@ app.post("/comment", saveComment);
 app.post("/power", powerUser);
 app.post("/game_create", createNewGame);
 app.post("/game_edit", editGame);
+app.post("/game_remove", deleteGame);
+app.post("/addFavoriteGroup", addFavorite);
+app.post("/removeFavoriteGame",removeFavoriteGame);
+app.post("/removeFavoriteGroup", removeFavoriteGroup);
+app.post("/addToFavoritesOtherGroup", addToFavoritesOtherGroup);
+app.post("/removeFavoriteOtherGroup", removeFavoriteOtherGroup);
 
 app.listen(port, () => {
     console.log(`App listening on port http://localhost:${port}`)

@@ -47,6 +47,10 @@ let getGameEditPage = (req, res) => {
     }
 }
 
+let getGameRemovePage = (req, res) => {
+    return res.render("game_remove.ejs", {id: req.query.id, msg: ""});
+}  
+
 let createNewGame = (req, res) => {
     let id = req.session.userID;
 
@@ -90,10 +94,27 @@ let editGame = (req, res) => {
         return res.redirect('/');
 }
 
+let deleteGame = (req, res) => {
+    console.log(req.body.id);
+    console.log(req.session.userID);
+        sql.query(`SELECT * FROM Zaidimai WHERE id_Zaidimas='${req.body.id}'`, (error, result) => {
+            if(error) {
+                return console.log(error);
+            }
+            if(result.length > 0) {
+                console.log(result);
+                sql.query(`DELETE FROM Zaidimai WHERE id_Zaidimas='${req.body.id}'`);
+            }
+            return res.redirect("/");
+        })
+}
+
 module.exports = {
     getGamePage: getGamePage,
     getGameCreationPage: getGameCreationPage,
     getGameEditPage: getGameEditPage,
+    getGameRemovePage: getGameRemovePage,
     createNewGame: createNewGame,
-    editGame: editGame
+    editGame: editGame,
+    deleteGame: deleteGame
 }
