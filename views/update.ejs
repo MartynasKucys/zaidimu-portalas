@@ -9,42 +9,34 @@
 <body>
     <div class="container">
         <form class="row" method="post" action="/update">
+            <input type="hidden" name="id" value="<%= id %>">
             <h1 class="text-light border-bottom border-secondary p-2">Atnaujinti profilį</h1>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo kalba:</label>
-                <input type="text" class="form-control bg-dark text-light">
+                <label for="lang">Naudotojo kalba:</label>
+                <input name="lang" type="text" class="form-control bg-dark text-light" value="<%= language %>">
             </div>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo ūgis (metrais):</label>
-                <input type="text" class="form-control bg-dark text-light">
+                <label for="height">Naudotojo ūgis (metrais):</label>
+                <input name="height" type="text" class="form-control bg-dark text-light" value="<%= height %>">
             </div>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo svoris (kilogramais):</label>
-                <input type="text" class="form-control bg-dark text-light">
+                <label for="width">Naudotojo svoris (kilogramais):</label>
+                <input name="width" type="text" class="form-control bg-dark text-light" value="<%= width %>">
             </div>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo plaukų spalva:</label>
-                <input type="text" class="form-control bg-dark text-light">
+                <label for="hair_col">Naudotojo plaukų spalva:</label>
+                <input name="hair_col" type="text" class="form-control bg-dark text-light" value="<%= hair_col %>">
             </div>
             <div class="col-6 p-2">
-                <label for="name">Naudotojo akių spalva:</label>
-                <select class="form-control bg-dark text-light">
-                    <option value="">Pasirinkite akių spalvą...</option>
-                    <option value>Žalia</option>
-                    <option>Ruda</option>
-                    <option>Mėlyna</option>
-                </select>
-            </div>
-            <div class="col-6 p-2">
-                <label for="name">Trumpas aprašymas:</label>
-                <input type="text" class="form-control bg-dark text-light">
+                <label for="short_desc">Trumpas aprašymas:</label>
+                <input name="short_desc" type="text" class="form-control bg-dark text-light" value="<%= short_desc %>">
             </div>
             <div class="col-12 p-2">
-                <label for="name">Naudotojo aprašymas:</label>
-                <textarea class="form-control bg-dark text-light"></textarea>
+                <label for="desc">Naudotojo aprašymas:</label>
+                <textarea name="desc" class="form-control bg-dark text-light"><%= desc %></textarea>
             </div>
             <div class="col-12 p-2 d-flex justify-content-end">
-                <button class="btn btn-primary bg-dark border-secondary" onclick="window.location.href='index.html'; return false;">Atnaujinti</button>
+                <button class="btn btn-primary bg-dark border-secondary">Atnaujinti</button>
             </div>
         </form>
     </div>
