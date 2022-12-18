@@ -20,7 +20,6 @@ app.get("/login", getLoginPage);
 app.get("/game", getGamePage);
 app.get("/register", getRegisterPage);
 
-
 app.listen(port, () => {
     console.log(`Example app listening on port http://localhost:${port}`)
   })
