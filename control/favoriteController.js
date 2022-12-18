@@ -47,7 +47,7 @@ const addFavorite = (req, res) => {
 
 const removeFavoriteGame = (req, res) => {
 
-    console.log(req.body.gameId)
+    // console.log(req.body.gameId)
 
     values = req.body.gameId.split("|")
 
@@ -59,10 +59,24 @@ const removeFavoriteGame = (req, res) => {
 
 }
 
+const removeFavoriteGroup = (req, res) => {
+
+    groupId = req.body.removeGroupButton
+
+
+    sqlString = "delete from info.megstamiausiu_grupes\
+    where info.megstamiausiu_grupes.id_Megstamiausiu_grupe = " + groupId
+
+
+    sql.query(sqlString)
+
+}
+
 
 
 module.exports = {
     getFavoriteGroup:getFavoriteGroup,
     addFavorite: addFavorite,
-    removeFavoriteGame: removeFavoriteGame
+    removeFavoriteGame: removeFavoriteGame,
+    removeFavoriteGroup:removeFavoriteGroup
 }
