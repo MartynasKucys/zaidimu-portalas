@@ -79,7 +79,7 @@ CREATE TABLE Naudotojai
 	Nuotrauka blob NULL,
 	fk_lygis__id_lygis integer NOT NULL,
 	PRIMARY KEY(id_Naudotojas),
-	UNIQUE(fk_lygis__id_lygis),
+	FOREIGN KEY(fk_lygis__id_lygis) REFERENCES Lygis(id_Lygis),
 	FOREIGN KEY(Akiu_spalva) REFERENCES Akiu_spalva (id_Akiu_spalva),
 	FOREIGN KEY(Lytis) REFERENCES Lytis (id_Lytis)
 

@@ -53,7 +53,7 @@
                             <tr>
                                 <th><%= data[i]["nr"] %></th>
                                 <th><%= data[i]["gameName"]%></th>
-                                <th><%= data[i]["date"] %></th>
+                                <th><%= data[i]["date"] // TODO link to game page %></th>
                                 <th>Nuoroda</th>
                                 <th> <form action="/removeFavoriteGame" method="post">
                                     <button value="<%=data[i]["nr"]%>|<%=data[i]["groupId"]%>", name = "gameId">Pašalinti</button>
@@ -67,8 +67,8 @@
                             <tr>
                                 <th><%= data[i]["nr"] %></th>
                                 <th><%= data[i]["gameName"]%></th>
-                                <th><%= data[i]["date"] %></th>
-                                <th>Nuoroda</th>
+                                <th><%= data[i]["date"] // TODO link to game page %></th>
+                                <th>Nuoroda</th> 
                                 <th> <form action="/removeFavoriteGame" method="post">
                                     <button value="<%=data[i]["nr"]%>|<%=data[i]["groupId"]%>" name = "gameId">Pašalinti</button>
                                 </form></th>
@@ -88,118 +88,6 @@
 
 
 
-                <div  class="col-12 border-bottom border-secondary">
-
-
-                    <p class="text-light p-2 text-size" style="font-size: 40px;">"Mano grupė 1" 
-                        <a href="" style="font-size:20px;">Išstrinti grupe</a>
-                        <a href="" style="font-size:20px;">Pasidalinti</a>
-                        <a href="" style="font-size:20px;">Pažymėti kaip mėgstamiausią</a>
-                     </p>
-
-                    <table class="table"style="color:white">
-
-                        <tr>
-                            <th>Nr.</th>
-                            <th>Pavadinimas</th>
-                            <th>Pridėjimo data</th>
-                            <th>Nuoroda</th>
-                            <th></th>
-                        </tr>
-
-                        <tr>
-                            <td>1</td>
-                            <td>žaidimas 1</td>
-                            <td>2022-08-4</td>
-                            <td><a href=""> į puslapį</a></td>
-                            <td> <a href="">Pašalinti</a></td>
-                        </tr>
-
-
-                        <tr>
-                            <td>2</td>
-                            <td>žaidimas 2</td>
-                            <td>2022-08-23</td>
-                            <td><a href=""> į puslapį</a></td>
-                            <td> <a href="">Pašalinti</a></td>
-
-                        </tr>
-
-
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>žaidimas 3</td>
-                            <td>2022-08-12</td>
-                            <td><a href=""> į puslapį</a></td>
-                            <td> <a href="">Pašalinti</a></td>
-
-                        </tr>
-
-
-
-                    </table>
-
-
-                </div>
-
-
-                <div  class="col-12 border-bottom border-secondary">
-                    <p class="text-light p-2 text-size" style="font-size: 40px;">"Mano grupė 2"
-                        <a href="" style="font-size:20px;">Išstrinti grupe</a>
-                        <a href="" style="font-size:20px;">Pasidalinti</a>
-                        <a href="" style="font-size:20px;">Pažymėti kaip mėgstamiausią</a>
-
-
-
-                    </p>
-
-                    <table class="table"style="color:white">
-
-                        <tr>
-                            <th>Nr.</th>
-                            <th>Pavadinimas</th>
-                            <th>Pridėjimo data</th>
-                            <th>Nuoroda</th>
-                            <th></th>
-                        </tr>
-
-                        <tr>
-                            <td>1</td>
-                            <td>žaidimas 3</td>
-                            <td>2022-08-4</td>
-                            <td><a href=""> į puslapį</a></td>
-                            <td> <a href="">Pašalinti</a></td>
-
-                        </tr>
-
-
-                        <tr>
-                            <td>2</td>
-                            <td>žaidimas 6</td>
-                            <td>2022-08-23</td>
-                            <td><a href=""> į puslapį</a></td>
-                            <td> <a href="">Pašalinti</a></td>
-
-                        </tr>
-
-
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>žaidimas 1</td>
-                            <td>2022-08-12</td>
-                            <td><a href=""> į puslapį</a></td>
-                            <td> <a href="">Pašalinti</a></td>
-
-                        </tr>
-
-
-
-                    </table>
-
-
-                </div>
 
                 <div  class="col-12 border-bottom border-secondary">
                     <p class="text-light p-2 text-size" style="font-size: 40px;">"Kito grupė 1"

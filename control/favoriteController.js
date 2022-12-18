@@ -6,6 +6,8 @@ const sql = require("../configs/connect.js");
 const getFavoriteGroup = (req, res) => {
 
 
+    console.log(req.session.userID)
+
     var userID = 1 // TODO userID 
 
     // sqlString = 'SELECT * FROM info.megstamiausiu_grupes WHERE fk_Naudotojas__id_Naudotojas = '+userID
