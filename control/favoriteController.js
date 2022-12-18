@@ -1,7 +1,4 @@
-const { app } = require("firebase-admin");
 const sql = require("../configs/connect.js");
-
-
 
 const getFavoriteGroup = (req, res) => {
 
