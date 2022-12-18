@@ -6,7 +6,7 @@ const port = 5000;                  //Save the port number where your server wil
 const {getFavoriteGroup, addFavorite,removeFavoriteGame,removeFavoriteGroup} = require("./control/favoriteController");
 const {getLoginPage, getRegisterPage, getUpdatePage, getPowerPage, 
     getDeletePage, registerNewUser, getProfilePage, loginUser, deleteUser, updateUser} = require("./control/userController");
-const {getGamePage, getGameCreationPage, createNewGame} = require("./control/gameController");
+const {getGamePage, getGameCreationPage, getGameEditPage, createNewGame, editGame} = require("./control/gameController");
 const bodyParser = require("body-parser");
 const sessions = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -67,6 +67,7 @@ app.get("/power", getPowerPage);
 // Game management sub-system
 app.get("/game", getGamePage);
 app.get("/game_create", getGameCreationPage);
+app.get("/game_edit", getGameEditPage);
 
 // POSTs
 app.post("/addFavorite", addFavorite);
@@ -75,6 +76,7 @@ app.post("/login", loginUser);
 app.post("/delete", deleteUser);
 app.post("/update", updateUser);
 app.post("/game_create", createNewGame);
+app.post("/game_edit", editGame);
 
 app.listen(port, () => {
     console.log(`App listening on port http://localhost:${port}`)
