@@ -1,10 +1,4 @@
-const { group } = require("console");
-const url = require("url");
-
-
 const sql = require("../configs/connect.js");
-
-
 
 const getFavoriteGroup = (req, res) => {
 
