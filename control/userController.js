@@ -51,8 +51,10 @@ let deleteUser = (req, res) => {
                 sql.query(`DELETE FROM Roles WHERE fk_Naudotojas__id_Naudotojas='${req.body.id}'`);
                 sql.query(`DELETE FROM Megstamiausios_Megstamiausiu_grupes WHERE fk_Naudotojas__id_Naudotojas='${req.body.id}'`);
                 sql.query(`DELETE FROM Megstamiausiu_grupes WHERE fk_Naudotojas__id_Naudotojas='${req.body.id}'`);
+                for (let i of result) {
+                    sql.query(`DELETE FROM Zaidimai WHERE fk_Naudotojas='${req.body.id}'`);
+                } 
                 sql.query(`DELETE FROM Naudotojai WHERE id_Naudotojas='${req.body.id}'`);
-
             }
             return res.redirect("/");
         })
