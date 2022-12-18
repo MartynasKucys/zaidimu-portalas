@@ -10,9 +10,21 @@ const bodyParser = require("body-parser");
 const sessions = require('express-session');
 const cookieParser = require('cookie-parser');
 
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(sessions({
+    secret:"?D(G-KaPdSgVkYp3s6v9y$B&E)H@MbQe",
+    saveUninitialized: true,
+    cookie: { maxAge: 1000*60*60 },
+    resave: false
+}));
+
+app.use(cookieParser());
+
 app.use(express.static(__dirname + "/public"));
 //Idiomatic expression in express to route and respond to a client request
 app.get('/', (req, res) => {        //get requests to the root ("/") will route here
+    console.log(req.session);
     res.render('index.ejs', {root: __dirname});  
 });
 
@@ -32,14 +44,6 @@ app.get("/register", getRegisterPage);
 app.post("/register", registerNewUser);
 app.post("/login", loginUser);
 
-app.use(sessions({
-    secret:"?D(G-KaPdSgVkYp3s6v9y$B&E)H@MbQe",
-    saveUninitialized: true,
-    cookie: { maxAge: 1000*60*60 },
-    resave: false
-}));
-
-app.use(cookieParser());
 
 
 
