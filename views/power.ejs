@@ -8,19 +8,19 @@
     </head>
 <body>
     <div class="container">
-        <form class="row">
-            <h1 class="text-light border-bottom border-secondary p-2">Pakelti vartotoją - Vartotojas</h1>
+        <form class="row" action="power/" method="post">
+            <h1 class="text-light border-bottom border-secondary p-2">Pakelti vartotoją</h1>
             <div class="col-12 p-2">
                 <label class="p-2" for="power">Į kurią rolę norite pakelti vartotoją?</label>
                 <select name="power" class="form-control bg-dark text-light">
                     <option value="">Pasirinkite rolę...</option>
                     <option value="1">Administratorius</option>
                  </select>
-                
+                <input type="hidden" name="id" value="id">
             </div>
             
             <div class="col-12 p-2 d-flex justify-content-end">
-                <button class="btn btn-primary text-light bg-dark border-secondary" onclick="alert('Ar norite palikti komentarą?');"><a class="text-light" href="comment.html">Pakelti</a></button>
+                <button class="btn btn-primary text-light bg-dark border-secondary">Pakelti</a></button>
             </div>
         </form>
     </div>

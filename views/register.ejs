@@ -8,8 +8,12 @@
     </head>
 <body>
     <div class="container">
-        <form method="post" action="/register" class="row">
+        <form method="post" action="/register" class="row" enctype="multipart/form-data">
             <h1 class="text-light border-bottom border-secondary p-2">Registracija</h1>
+
+            <div class="col-12 p-2">
+                <label class="text-danger"><%= err_msg %></label>
+            </div>
             <div class="col-6 p-2">
                 <label for="name">Naudotojo vardas: *</label>
                 <input name="name" type="text" class="form-control bg-dark text-light">
@@ -23,19 +27,19 @@
                 <input name="email" type="email" class="form-control bg-dark text-light">
             </div>
             <div class="col-6 p-2">
-                <label for="language">Naudotojo kalba:</label>
+                <label for="language">Naudotojo kalba: *</label>
                 <input name="language" type="text" class="form-control bg-dark text-light">
             </div>
             <div class="col-6 p-2">
-                <label for="height">Naudotojo ūgis (metrais):</label>
+                <label for="height">Naudotojo ūgis (metrais): *</label>
                 <input name="height" type="text" class="form-control bg-dark text-light">
             </div>
             <div class="col-6 p-2">
-                <label for="width">Naudotojo svoris (kilogramais):</label>
+                <label for="width">Naudotojo svoris (kilogramais): *</label>
                 <input name="width" type="text" class="form-control bg-dark text-light">
             </div>
             <div class="col-6 p-2">
-                <label for="hair_col">Naudotojo plaukų spalva:</label>
+                <label for="hair_col">Naudotojo plaukų spalva: *</label>
                 <input name="hair_col" type="text" class="form-control bg-dark text-light">
             </div>
             <div class="col-6 p-2">
@@ -57,19 +61,19 @@
                 </select>
             </div>
             <div class="col-6 p-2">
-                <label for="short_desc">Trumpas aprašymas:</label>
+                <label for="short_desc">Trumpas aprašymas: *</label>
                 <input name="short_desc" type="text" class="form-control bg-dark text-light">
             </div>
             <div class="col-6 p-2">
-                <label for="country">Salis:</label>
+                <label for="country">Salis: *</label>
                 <input name="country" type="text" class="form-control bg-dark text-light">
             </div>
             <div class="col-12 p-2">
-                <label for="desc">Naudotojo aprašymas:</label>
+                <label for="desc">Naudotojo aprašymas: *</label>
                 <textarea name="desc" class="form-control bg-dark text-light"></textarea>
             </div>
             <div class="col-12 p-2 d-flex justify-content-end">
-                <button class="btn btn-primary bg-dark border-secondary" onclick="alert('Sekmingai užsiregstravote');">Užsiregistruoti</button>
+                <button class="btn btn-primary bg-dark border-secondary">Užsiregistruoti</button>
             </div>
         </form>
     </div>
