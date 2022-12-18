@@ -4,7 +4,7 @@ const express = require('express'); //Import the express dependency
 const app = express();              //Instantiate an express app, the main work horse of this server
 const port = 5000;                  //Save the port number where your server will be listening
 const {getFavoriteGroup, addFavorite} = require("./control/favoriteController");
-const {getLoginPage, getRegisterPage, registerNewUser, getProfilePage, loginUser} = require("./control/userController");
+const {getLoginPage, getRegisterPage, registerNewUser, getProfilePage, loginUser, getDeletePage, deleteUser} = require("./control/userController");
 const {getGamePage} = require("./control/gameController");
 const bodyParser = require("body-parser");
 const sessions = require('express-session');
@@ -34,6 +34,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get("/favoriteGroup", getFavoriteGroup);
 app.post("/addFavorite", addFavorite)
 
+app.get("/delete", getDeletePage);
 
 app.get("/login", getLoginPage);
 app.get("/profile", getProfilePage);
@@ -43,7 +44,7 @@ app.get("/register", getRegisterPage);
 
 app.post("/register", registerNewUser);
 app.post("/login", loginUser);
-
+app.post("/delete", deleteUser);
 
 
 
