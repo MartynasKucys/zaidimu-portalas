@@ -1,9 +1,33 @@
+const { app } = require("firebase-admin");
 const sql = require("../configs/connect.js");
 
 
 
 const getFavoriteGroup = (req, res) => {
-    return res.render("favoriteGroup.ejs")
+
+
+    var userID = 1 // TODO userID 
+
+    // sqlString = 'SELECT * FROM info.megstamiausiu_grupes WHERE fk_Naudotojas__id_Naudotojas = '+userID
+
+    sqlString = "select info.megstamiausiu_grupes.Pavadinimas as groupName, info.megstamiausi_zaidimai.Ikelimo_data as date, info.zaidimai.Pavadinimas as gameName, info.megstamiausi_zaidimai.Eiles_numeris as nr, info.megstamiausiu_grupes.id_Megstamiausiu_grupe as groupId\
+    from info.megstamiausiu_grupes\
+    left join info.megstamiausi_zaidimai\
+    on info.megstamiausi_zaidimai.fk_Megstamiausiu_grupe__id_Megstamiausiu_grupe=  info.megstamiausiu_grupes.id_Megstamiausiu_grupe\
+    left join info.zaidimai\
+    on info.zaidimai.id_Zaidimas = info.megstamiausi_zaidimai.fk_Zaidimas__id_Zaidimas\
+    where info.megstamiausiu_grupes.fk_Naudotojas__id_Naudotojas = " + userID +"\
+    order by groupId, nr"
+
+
+  sql.query(sqlString, function (err, results){
+
+
+        console.log(results)
+        return res.render("favoriteGroup.ejs", {data: results})
+
+    })
+
 }
 
 
@@ -19,6 +43,7 @@ const addFavorite = (req, res) => {
     console.log(sqlString)
     sql.query(sqlString)
 
+    
 
 }
 

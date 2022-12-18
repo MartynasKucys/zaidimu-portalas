@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get("/favoriteGroup", getFavoriteGroup);
-app.post("/addFavorite", addFavorite)
+app.post("/addFavoriteGroup", addFavorite)
 
 
 app.get("/login", getLoginPage);
