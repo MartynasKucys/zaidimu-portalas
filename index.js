@@ -25,7 +25,7 @@ app.use(express.static(__dirname + "/public"));
 //Idiomatic expression in express to route and respond to a client request
 app.get('/', (req, res) => {        //get requests to the root ("/") will route here
     console.log(req.session);
-    res.render('index.ejs', {root: __dirname});  
+    res.render('index.ejs', {root: __dirname, id: req.session.userID});  
 });
 
 app.use(bodyParser.json());
@@ -36,7 +36,7 @@ app.post("/addFavorite", addFavorite)
 
 
 app.get("/login", getLoginPage);
-app.get("/profile/:id", getProfilePage);
+app.get("/profile", getProfilePage);
 
 app.get("/game", getGamePage);
 app.get("/register", getRegisterPage);

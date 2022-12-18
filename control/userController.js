@@ -8,6 +8,18 @@ let getRegisterPage = (req, res ) => {
     return res.render("register.ejs");
 };
 
+let getUpdatePage = (req, res) => {
+    return res.render("update.ejs", {id: req.query.id});
+}
+
+let  getDeletePage = (req, res) => {
+    return res.render("delete.ejs", {id: req.query.id});
+}  
+
+let getPowerPage = (req, res) => {
+    return res.render("power.ejs", {id: req.query.id});
+}
+
 let loginUser = (req, res) => {
     try {
         let session = req.session;
@@ -34,8 +46,21 @@ let loginUser = (req, res) => {
     }
 }
 let getProfilePage = (req,res) => {
-    console.log(req.params);
-    res.render("profile.ejs");
+    let userID = req.query.id;
+    sql.query(`SELECT * FROM Naudotojai WHERE id_Naudotojas='${userID}'`, (error, result) => {
+        if(error) {
+            return console.log(error);
+        }
+        
+        if(result.length > 0) {
+
+            let r = result[0];
+            console.log(r);
+            return res.render("profile.ejs", {name: r.Vardas, desc: r.Aprasas, xp: r.Patirties_taskai, country: r.Salis, short_desc: r.Trumpas_aprasymas, height: r.Ugis, width: r.Svoris, language: r.Kalba, hair: r.Plauku_spalva, gender: r.Lytis, eyes: r.Akiu_spalva, img: r.Nuotrauka, lvl: r.fk_lygis__id_lygis});
+        }
+        return res.redirect('/');
+    })
+
 }
 let registerNewUser = (req, res) => {
     try {
@@ -67,5 +92,8 @@ module.exports = {
     getRegisterPage: getRegisterPage,
     registerNewUser: registerNewUser,
     loginUser: loginUser,
-    getProfilePage: getProfilePage
+    getProfilePage: getProfilePage,
+    getDeletePage: getDeletePage,
+    getUpdatePage: getUpdatePage,
+    getPowerPage: getPowerPage
 }
