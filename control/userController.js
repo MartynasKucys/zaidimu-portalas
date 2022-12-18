@@ -105,8 +105,8 @@ let registerNewUser = (req, res) => {
         sql.query(`INSERT INTO Naudotojai(Vardas, Elektroninis_pastas, Slaptazodis, Aprasas, Patirties_taskai,Salis, Trumpas_aprasas, Ugis, Svoris, Kalba, Plauku_spalva, Lytis, Akiu_spalva, fk_lygis__id_lygis) 
                           VALUES ('${newUser.name}', '${newUser.email}', '${newUser.password}', '${newUser.desc}', '0', '${newUser.country}', '${newUser.short_desc}', '${newUser.height}', '${newUser.width}', '${newUser.language}',' ${newUser.hair_col}', '${newUser.gender}', '${newUser.eye_col}','1')`);
         
-        sql.query(`INSERT INTO roles(Data, Komentaras, Role,id_Role, fk_Naudotojas__id_Naudotojas) 
-                          VALUES (NOW(), 'Vartotojas uzsiregistravo', '2', '2', LAST_INSERT_ID())`);
+        sql.query(`INSERT INTO roles( Komentaras, Role, fk_Naudotojas__id_Naudotojas) 
+                          VALUES ('Vartotojas uzsiregistravo', '2', LAST_INSERT_ID())`);
         return res.redirect("/");                         
     } catch(error) {
         console.log(error);
