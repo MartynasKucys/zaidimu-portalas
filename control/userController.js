@@ -90,7 +90,7 @@ let updateUser = (req, res) => {
 
 let powerUser = (req, res) => {
     if(req.session.userRole == "1") {
-        sql.query(`UPDATE Roles SET Role='1' WHERE fk_Naudotojas__id_Naudotojas=${req.body.id}`);
+        sql.query(`UPDATE Roles SET Role='1' WHERE fk_Naudotojas__id_Naudotojas='${req.body.id}'`);
     }
 
     return res.redirect("/");
@@ -112,12 +112,12 @@ let loginUser = (req, res) => {
                 //session.id = result.id;
                 let userID = result[0].id_Naudotojas;
                 req.session.userID = userID;
-                sql.query(`SELECT id_Role FROM roles WHERE fk_Naudotojas__id_Naudotojas='${userID}'`, (err,result) => {
+                sql.query(`SELECT * FROM roles WHERE fk_Naudotojas__id_Naudotojas='${userID}'`, (err,result) => {
                     if(err) {
                        return console.log(err);
-                    }
-
-                    req.session.userRole = result[0].id_Role;
+                    }   
+                    console.log(result[0]);
+                    req.session.userRole = result[0].Role;
 
                     return res.redirect('/');   
                 });

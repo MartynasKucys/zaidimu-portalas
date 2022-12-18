@@ -11,6 +11,7 @@
         <div class="row">
             <div class="col-3">
                 <div>
+                    <img width="150px" src="assets/image/avatar.jpg">
                     <p class="text-light"><b><%= name %></b></p>
                     <p class="text-light">Lygis <%= lvl %></p>
                     <p class="text-light">Lytis <%= gender %></p>
@@ -22,7 +23,7 @@
                     <p class="text-light">Kalba - <%= language %></p>
                     <p class="text-light">Plaukai - <%= hair %></p>
                     <% if(role == '1')  { %>
-                        <a class="text-light col-12" href="/power=<%= id %>">Pakelti į aukštesnę rolę.</a>
+                        <a class="text-light col-12" href="/power?id=<%= id %>">Pakelti į aukštesnę rolę.</a>
                     <% } %>
                     <% if (currID == id) { %>
                         <a class="text-light col-12" href="/update?id=<%= id %>">Atnaujinti profilį.</a>

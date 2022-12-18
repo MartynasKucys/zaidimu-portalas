@@ -1,15 +1,16 @@
-const sql = require("./configs/connect.js");
 
+const sql = require("./configs/connect.js");
 const express = require('express'); //Import the express dependency
 const app = express();              //Instantiate an express app, the main work horse of this server
 const port = 5000;                  //Save the port number where your server will be listening
 const {getFavoriteGroup, addFavorite,removeFavoriteGame,removeFavoriteGroup,addToFavoritesOtherGroup,removeFavoriteOtherGroup} = require("./control/favoriteController");
-const {getLoginPage, getRegisterPage, getUpdatePage, getPowerPage, 
-    getDeletePage, registerNewUser, getProfilePage, loginUser, deleteUser, updateUser} = require("./control/userController");
+const {getLoginPage, getRegisterPage, getUpdatePage,
+    getDeletePage, registerNewUser, getProfilePage, loginUser, deleteUser, updateUser, getPowerPage, powerUser, getCommentPage, saveComment} = require("./control/userController");
 const {getGamePage, getGameCreationPage, createNewGame} = require("./control/gameController");
 const bodyParser = require("body-parser");
 const sessions = require('express-session');
 const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -49,8 +50,9 @@ app.get('/', (req, res) => {        //get requests to the root ("/") will route 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(fileUpload());
 
-// Favourites sub-system
+
 app.get("/favoriteGroup", getFavoriteGroup);
 app.post("/addFavoriteGroup", addFavorite);
 app.post("/removeFavoriteGame",removeFavoriteGame);
@@ -58,26 +60,31 @@ app.post("/removeFavoriteGroup", removeFavoriteGroup);
 app.post("/addToFavoritesOtherGroup", addToFavoritesOtherGroup);
 app.post("/removeFavoriteOtherGroup", removeFavoriteOtherGroup);
 
-// User management sub-system
+
+app.get("/delete", getDeletePage);
+
 app.get("/login", getLoginPage);
 app.get("/profile", getProfilePage);
+
+app.get("/game", getGamePage);
 app.get("/register", getRegisterPage);
 app.get("/update", getUpdatePage);
 app.get("/delete", getDeletePage);
 app.get("/power", getPowerPage);
+app.get("/comment", getCommentPage);
 
-// Game management sub-system
 app.get("/game", getGamePage);
 app.get("/game_create", getGameCreationPage);
+app.get("/delete", getDeletePage);
 
-// POSTs
-app.post("/addFavorite", addFavorite);
 app.post("/register", registerNewUser);
 app.post("/login", loginUser);
+app.post("/addFavorite", addFavorite);
 app.post("/delete", deleteUser);
 app.post("/update", updateUser);
+app.post("/comment", saveComment);
+app.post("/power", powerUser);
 app.post("/game_create", createNewGame);
-
 app.listen(port, () => {
     console.log(`App listening on port http://localhost:${port}`)
   })

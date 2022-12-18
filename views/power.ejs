@@ -8,7 +8,7 @@
     </head>
 <body>
     <div class="container">
-        <form class="row" action="power/" method="post">
+        <form class="row" action="/power" method="post">
             <h1 class="text-light border-bottom border-secondary p-2">Pakelti vartotoją</h1>
             <div class="col-12 p-2">
                 <label class="p-2" for="power">Į kurią rolę norite pakelti vartotoją?</label>
@@ -16,7 +16,7 @@
                     <option value="">Pasirinkite rolę...</option>
                     <option value="1">Administratorius</option>
                  </select>
-                <input type="hidden" name="id" value="id">
+                <input type="hidden" name="id" value="<%= id %>">
             </div>
             
             <div class="col-12 p-2 d-flex justify-content-end">
