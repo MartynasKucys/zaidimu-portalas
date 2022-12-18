@@ -99,7 +99,7 @@ CREATE TABLE Zaidimai
 	Zanras integer NULL,
 	Statusas integer NOT NULL,
 	id_Zaidimas integer NOT NULL AUTO_INCREMENT,
-	Nuotrauka blob NOT NULL,
+	Nuotrauka mediumblob NOT NULL,
 	fk_Naudotojas integer NOT NULL,
 	PRIMARY KEY(id_Zaidimas),
 	FOREIGN KEY(Zanras) REFERENCES Zanras (id_Zanras),
