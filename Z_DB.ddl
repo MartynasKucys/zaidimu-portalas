@@ -76,7 +76,7 @@ CREATE TABLE Naudotojai
 	Lytis integer NULL,
 	Akiu_spalva integer NULL,
 	id_Naudotojas integer NOT NULL AUTO_INCREMENT,
-	Nuotrauka blob NULL,
+	Nuotrauka mediumblob NULL,
 	fk_lygis__id_lygis integer NOT NULL,
 	PRIMARY KEY(id_Naudotojas),
 	FOREIGN KEY(fk_lygis__id_lygis) REFERENCES Lygis(id_Lygis),
