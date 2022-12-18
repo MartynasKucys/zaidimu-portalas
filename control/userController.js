@@ -22,6 +22,7 @@ let loginUser = (req, res) => {
             if(result.length > 0) {
                 //session.id = result.id;
                 console.log(result[0].id_Naudotojas);
+                console.log(session);
                 return res.redirect('/');
             }
 
