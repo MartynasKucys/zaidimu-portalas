@@ -41,9 +41,14 @@
             <div class="col-9">
                 <div class="col-12 border-bottom border-secondary">
 
-                    <h1 class="text-light text-center p-2">Mėgstamiausių žaidimų grupė</h1>
+                    <h1 class="text-light text-center p-2">Mėgstamiausių žaidimų grupės</h1>
                 
                 </div>
+
+                <form action="/addFavorite", method="post">
+                    <input type="text" value="Grupes pavadinimas", name="grupeName">
+                    <button>Sukurti nauja grupe</button>
+                </form>
 
                 <div  class="col-12 border-bottom border-secondary">
                     <p class="text-light p-2 text-size" style="font-size: 40px;">"Mano grupė 1" 

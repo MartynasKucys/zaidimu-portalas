@@ -18,6 +18,7 @@
   "homepage": "https://github.com/MartynasKucys/zaidimu-portalas#readme",
   "dependencies": {
     "ejs": "^3.1.8",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
   }
 }
