@@ -3,7 +3,7 @@ const sql = require("./configs/connect.js");
 const express = require('express'); //Import the express dependency
 const app = express();              //Instantiate an express app, the main work horse of this server
 const port = 5000;                  //Save the port number where your server will be listening
-const {getFavoriteGroup, addFavorite,removeFavoriteGame,removeFavoriteGroup} = require("./control/favoriteController");
+const {getFavoriteGroup, addFavorite,removeFavoriteGame,removeFavoriteGroup,addToFavoritesOtherGroup,removeFavoriteOtherGroup} = require("./control/favoriteController");
 const {getLoginPage, getRegisterPage, getUpdatePage, getPowerPage, 
     getDeletePage, registerNewUser, getProfilePage, loginUser, deleteUser, updateUser} = require("./control/userController");
 const {getGamePage, getGameCreationPage, getGameEditPage, createNewGame, editGame} = require("./control/gameController");
@@ -55,6 +55,8 @@ app.get("/favoriteGroup", getFavoriteGroup);
 app.post("/addFavoriteGroup", addFavorite);
 app.post("/removeFavoriteGame",removeFavoriteGame);
 app.post("/removeFavoriteGroup", removeFavoriteGroup);
+app.post("/addToFavoritesOtherGroup", addToFavoritesOtherGroup);
+app.post("/removeFavoriteOtherGroup", removeFavoriteOtherGroup);
 
 // User management sub-system
 app.get("/login", getLoginPage);

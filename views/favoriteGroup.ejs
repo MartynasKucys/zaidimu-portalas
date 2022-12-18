@@ -7,32 +7,56 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-3">
+    <div class="container ">
+        <div class="row d-flex justify-content-around">
+ 
+            <div class="col-3 ">
 
+                <a class="text-light p-2" href="profile?id=<%= userID %>">
+                    Profilis
+                </a>
             </div>
-            <div class="col-9">
+            <div class="col-9 ">
                 <div class="col-12 border-bottom border-secondary">
 
                     <h1 class="text-light text-center p-2">Mėgstamiausių žaidimų grupės</h1>
                 
                 </div>
 
+
+
+
+                <% if (!guest){ %> 
                 <form action="/addFavoriteGroup", method="post">
                     <input type="text" value="Grupes pavadinimas", name="grupeName">
                     <button>Sukurti nauja grupe</button>
                 </form>
+                <% } %> 
+
+
 
                 <%for (var i = 0; i<data.length; i++){%>
 
                 <div  class="col-12 border-bottom border-secondary">
 
                     <p class="text-light p-2 text-size" style="font-size: 40px;"> "<%=data[i]["groupName"] %>"
+                        <% if (!guest){ %> 
                         <form action="/removeFavoriteGroup" method="post">
                             <button style="font-size:20px;"name="removeGroupButton" value="<%= data[i]["groupId"] %>"
                             >Pašalinti</button>
                         </form>
+                        <% } else{
+                            console.log("myId " + myID)
+                            %>
+                            
+                            
+                            <form action="/addToFavoritesOtherGroup" method="post">
+                                <button style="font-size:20px;"name="addToFavoritesOtherGroup" value="<%= data[i]["groupId"]%>|<%= myID%>">
+                                    Pridėti prie savo mėgstamiausiu</button>
+                            </form>
+
+
+                            <% } %> 
                         <form action="/share" method="post">
                             <button style="font-size:20px;">Pasidalinti</button>
                         </form>
@@ -49,91 +73,168 @@
                             <th></th>
                         </tr>
 
+
                         <% if (i < data.length && data[i]["gameName"] != null){ %> 
                             <tr>
                                 <th><%= data[i]["nr"] %></th>
                                 <th><%= data[i]["gameName"]%></th>
                                 <th><%= data[i]["date"] // TODO link to game page %></th>
                                 <th>Nuoroda</th>
-                                <th> <form action="/removeFavoriteGame" method="post">
+                                <th> 
+                                <% if (!guest){ %> 
+                                    <form action="/removeFavoriteGame" method="post">
+
                                     <button value="<%=data[i]["nr"]%>|<%=data[i]["groupId"]%>", name = "gameId">Pašalinti</button>
-                                </form></th>
+                                </form>
+                                <% }%> 
+                            </th>
                             </tr>
 
-                        <% var currentId = data[i]["groupId"] %> 
-                        <% while (currentId === data[i+1]["groupId"]){%>
+                            
+                            <% var currentId = data[i]["groupId"] %> 
+                            <%if (data[i+1] != undefined){ %> 
+                                <% var other = data[i+1]["groupId"] %> 
 
-                            <% i++ %>
-                            <tr>
-                                <th><%= data[i]["nr"] %></th>
-                                <th><%= data[i]["gameName"]%></th>
-                                <th><%= data[i]["date"] // TODO link to game page %></th>
-                                <th>Nuoroda</th> 
-                                <th> <form action="/removeFavoriteGame" method="post">
-                                    <button value="<%=data[i]["nr"]%>|<%=data[i]["groupId"]%>" name = "gameId">Pašalinti</button>
-                                </form></th>
-                            </tr>
+                                <% while (currentId === other){%>
+                                    
+                                    <% i++;
+                                    other = data[i] %>
+                                    <tr>
+                                        
+                                        
+                                        <th><%= other["nr"] %></th>
 
 
-                        <% } %>  
+                                        <th><%= data[i]["gameName"]%></th>
+                                        <th><%= data[i]["date"] // TODO link to game page %></th>
+                                        <th>Nuoroda</th> 
+                                        <% if (!guest){ %> 
+                                        <th> <form action="/removeFavoriteGame" method="post">
+                                            <button value="<%=data[i]["nr"]%>|<%=data[i]["groupId"]%>" name = "gameId">Pašalinti</button>
+                                        </form>
+                                        <% } %> 
+                                    </th>
+                                    </tr>
+
+
+                                <% } %>  
+                            <% } %>  
+
+
                         <% } %>  
 
                         
                     </table>
 
 
-                    <% } %>  
 
+                </div>
+                <% } %>  
+
+
+                <div class="col-12 border-bottom border-secondary">
+
+                    <h1 class="text-light text-center p-2">Kitų vartotojų mėgstamiausios žaidimų grupės</h1>
+                
                 </div>
 
 
+                <% for (var i = 0; i<otherFavorites.length; i++){  %> 
+
+                    <div  class="col-12 border-bottom border-secondary">
+
+                        <p class="text-light p-2 text-size" style="font-size: 40px;"> "<%=otherFavorites[i]["groupName"] %>"
+                            <% if (!guest){ %> 
+                            <form action="/removeFavoriteOtherGroup" method="post">
+                                <button style="font-size:20px;"name="removeFavoriteOtherGroup" value="<%= otherFavorites[i]["groupId"] %>"
+                                >Pašalinti</button>
+                            </form>
+                            <% } else{%>
+                                
+                                
+                                <form action="/addToFavoritesOtherGroup" method="post">
+                                    <button style="font-size:20px;"name="addToFavoritesOtherGroup" value="<%= otherFavorites[i]["otherGroupId"]%>|<%= myID%>">
+                                        Pridėti prie savo mėgstamiausiu</button>
+                                </form>
+    
+    
+                                <% } %> 
+                            <form action="/share" method="post">
+                                <button style="font-size:20px;">Pasidalinti</button>
+                            </form>
+                        </p>
+
+                        <table class="table"style="color:white">
+
+                            <tr>
+                                <th>Nr.</th>
+                                <th>Pavadinimas</th>
+                                <th>Pridėjimo data</th>
+                                <th>Nuoroda</th>
+                                <th></th>
+                            </tr>
+    
+    
+                            <% if (i < otherFavorites.length && otherFavorites[i]["gameName"] != null){ %> 
+                                <tr>
+                                    <th><%= otherFavorites[i]["nr"] %></th>
+                                    <th><%= otherFavorites[i]["gameName"]%></th>
+                                    <th><%= otherFavorites[i]["date"] // TODO link to game page %></th>
+                                    <th>Nuoroda</th>
+                                    <th> 
+                                    <% if (!guest){ %> 
+                                        <form action="/removeFavoriteGame" method="post">
+    
+                                        <button value="<%=otherFavorites[i]["nr"]%>|<%=otherFavorites[i]["groupId"]%>", name = "gameId">Pašalinti</button>
+                                    </form>
+                                    <% }%> 
+                                </th>
+                                </tr>
+    
+                                
+                                <% var currentId = otherFavorites[i]["groupId"] %> 
+                                <%if (otherFavorites[i+1] != undefined){ %> 
+                                    <% var other = otherFavorites[i+1]["groupId"] %> 
+    
+                                    <% while (currentId === other){%>
+                                        
+                                        <% i++;
+                                        other = otherFavorites[i] %>
+                                        <tr>
+                                            
+                                            
+                                            <th><%= other["nr"] %></th>
+    
+    
+                                            <th><%= otherFavorites[i]["gameName"]%></th>
+                                            <th><%= otherFavorites[i]["date"] // TODO link to game page %></th>
+                                            <th>Nuoroda</th> 
+                                            <% if (!guest){ %> 
+                                            <th> <form action="/removeFavoriteGame" method="post">
+                                                <button value="<%=otherFavorites[i]["nr"]%>|<%=otherFavorites[i]["groupId"]%>" name = "gameId">Pašalinti</button>
+                                            </form>
+                                            <% } %> 
+                                        </th>
+                                        </tr>
+    
+    
+                                    <% } %>  
+                                <% } %>  
+    
+    
+                            <% } %>  
+    
+                            
+                        </table>
 
 
-                <div  class="col-12 border-bottom border-secondary">
-                    <p class="text-light p-2 text-size" style="font-size: 40px;">"Kito grupė 1"
-                        <a href="" style="font-size:20px;">Pasidalinti</a>
-                        <a href="" style="font-size:20px;">Išstrinti kaip mėgstamiausią</a>
+                    </div>
+
+                    <% } %> 
 
 
 
-                    </p>
 
-                    <table class="table"style="color:white">
-
-                        <tr>
-                            <th>Nr.</th>
-                            <th>Pavadinimas</th>
-                            <th>Pridėjimo data</th>
-                            <th>Nuoroda</th>
-                        </tr>
-
-                        <tr>
-                            <td>1</td>
-                            <td>žaidimas 3</td>
-                            <td>2022-08-4</td>
-                            <td><a href=""> į puslapį</a></td>
-                        </tr>
-
-
-                        <tr>
-                            <td>2</td>
-                            <td>žaidimas 6</td>
-                            <td>2022-08-23</td>
-                            <td><a href=""> į puslapį</a></td>
-                        </tr>
-
-
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>žaidimas 1</td>
-                            <td>2022-08-12</td>
-                            <td><a href=""> į puslapį</a></td>
-                        </tr>
-
-
-
-                    </table>
 
 
                 </div>

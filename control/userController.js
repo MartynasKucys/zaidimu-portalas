@@ -1,11 +1,12 @@
 const sql = require("../configs/connect.js");
-
+const auth = require("../validation/auth.js");
+const multer = require("multer");
 let getLoginPage = (req, res) =>  {
-    return res.render("login.ejs");
+    return res.render("login.ejs", {err_msg: ""});
 };
 
 let getRegisterPage = (req, res ) => {
-    return res.render("register.ejs");
+    return res.render("register.ejs", {err_msg: []});
 };
 
 let getUpdatePage = (req, res) => {
@@ -29,28 +30,38 @@ let getUpdatePage = (req, res) => {
 }
 
 let  getDeletePage = (req, res) => {
-    return res.render("delete.ejs", {id: req.query.id});
+    return res.render("delete.ejs", {id: req.query.id, msg: ""});
 }  
 
 let getPowerPage = (req, res) => {
+
+    if(req.session.userRole != 1) {
+        return res.redirect("/");
+    }
+
     return res.render("power.ejs", {id: req.query.id});
 }
 
 let deleteUser = (req, res) => {
-    if(req.query.id == req.session.userID) {
-        sql.query(`SELECT * FROM Naudotojai WHERE id_Naudotojas='${req.query.id}'`, (error, result) => {
+    console.log(req.body.id);
+    console.log(req.session.userID);
+    if(req.body.id == req.session.userID || req.session.userRole == '1' ) {
+
+        sql.query(`SELECT * FROM Naudotojai WHERE id_Naudotojas='${req.body.id}'`, (error, result) => {
             if(error) {
                 return console.log(error);
             }
-            
             if(result.length > 0) {
-                return sql.query(`DELETE * FROM Naudotojai WHERE id_Naudotojas='${req.query.id}'`);
-            }
+                console.log(result);
+                sql.query(`DELETE FROM Roles WHERE fk_Naudotojas__id_Naudotojas='${req.body.id}'`);
+                sql.query(`DELETE FROM Megstamiausios_Megstamiausiu_grupes WHERE fk_Naudotojas__id_Naudotojas='${req.body.id}'`);
+                sql.query(`DELETE FROM Megstamiausiu_grupes WHERE fk_Naudotojas__id_Naudotojas='${req.body.id}'`);
+                sql.query(`DELETE FROM Naudotojai WHERE id_Naudotojas='${req.body.id}'`);
 
+            }
+            return res.redirect("/");
         })
     }
-
-    return res.redirect('/');
 }
 
 let updateUser = (req, res) => {
@@ -58,7 +69,7 @@ let updateUser = (req, res) => {
     let id = req.body.id;
 
     if(userID == id || req.session.userRole == 1) {
-        console.log("ttt");
+
         let newData = {
             language: req.body.lang,
             height: req.body.height,
@@ -67,7 +78,7 @@ let updateUser = (req, res) => {
             short: req.body.short_desc,
             desc: req.body.desc
         }
-        console.log(newData);
+
         sql.query(`UPDATE Naudotojai SET Kalba='${newData.language}', Ugis='${newData.height}', Svoris='${newData.width}', Plauku_spalva='${newData.hair}', Trumpas_aprasas='${newData.short}', Aprasas='${newData.desc}'`);
         return res.redirect('/');
 
@@ -76,6 +87,15 @@ let updateUser = (req, res) => {
     }
 
 }
+
+let powerUser = (req, res) => {
+    if(req.session.userRole == "1") {
+        sql.query(`UPDATE Roles SET Role='1' WHERE fk_Naudotojas__id_Naudotojas=${req.body.id}`);
+    }
+
+    return res.redirect("/");
+}
+
 let loginUser = (req, res) => {
     try {
         let name = req.body.name;
@@ -102,6 +122,8 @@ let loginUser = (req, res) => {
                     return res.redirect('/');   
                 });
 
+            } else {
+                res.render("login.ejs", {err_msg: "Toks vartotojas neegzistuoja!"});
             }
 
 
@@ -110,8 +132,10 @@ let loginUser = (req, res) => {
         console.log("error");
     }
 }
+
 let getProfilePage = (req,res) => {
     let userID = req.query.id;
+
     sql.query(`SELECT * FROM Naudotojai WHERE id_Naudotojas='${userID}'`, (error, result) => {
         if(error) {
             return console.log(error);
@@ -120,14 +144,39 @@ let getProfilePage = (req,res) => {
         if(result.length > 0) {
 
             let r = result[0];
-            return res.render("profile.ejs", {id: userID, name: r.Vardas, desc: r.Aprasas, xp: r.Patirties_taskai, country: r.Salis, short_desc: r.Trumpas_aprasymas, height: r.Ugis, width: r.Svoris, language: r.Kalba, hair: r.Plauku_spalva, gender: r.Lytis, eyes: r.Akiu_spalva, img: r.Nuotrauka, lvl: r.fk_lygis__id_lygis});
+            sql.query(`SELECT name FROM Lygis Where id_Lygis='${r.fk_lygis__id_lygis}'`, (e_level, level) => {
+                if(e_level) {
+                    return console.log(e_level);
+                }
+
+                sql.query(`select name FROM Akiu_Spalva Where id_Akiu_spalva='${r.Akiu_spalva}'`, (e_eyes, eyes) => {
+                    if(e_eyes) {
+                        return console.log(e_eyes);
+                    }
+                    sql.query(`select name FROM Lytis Where id_Lytis='${r.Lytis}'`, (e_gender, gender) => {
+                        if(e_gender) {
+                            return console.log(e_gender);
+                        }
+                        
+                        return res.render("profile.ejs", {currID: req.session.userID, role: req.session.userRole, id: userID,image: r.image, name: r.Vardas, desc: r.Aprasas, xp: r.Patirties_taskai, country: r.Salis, short_desc: r.Trumpas_aprasymas, height: r.Ugis, width: r.Svoris, language: r.Kalba, hair: r.Plauku_spalva, gender: gender[0].name, eyes: eyes[0].name, img: r.Nuotrauka, lvl: level[0].name});
+                    })
+                })
+            });
+
+
+            
+        } else {
+            return res.redirect('/');
         }
-        return res.redirect('/');
+
     })
 
 }
 let registerNewUser = (req, res) => {
     try {
+
+        const {name, data} = req.files.photo;
+        console.log(req.data);
         let newUser = {
             name: req.body.name,
             password: req.body.password,
@@ -140,20 +189,37 @@ let registerNewUser = (req, res) => {
             gender: req.body.gender,
             short_desc: req.body.short_desc,
             desc: req.body.desc,
-            country: req.body.country
+            country: req.body.country,
         }
+
+        auth.checkRegister(newUser, (err) => {
+            if(err.length > 0) {
+                return res.render("register.ejs", {err_msg: err[0]})
+            } else {
+
+            sql.query(`INSERT INTO Naudotojai(Vardas, Elektroninis_pastas, Slaptazodis, Aprasas, Patirties_taskai,Salis, Trumpas_aprasas, Ugis, Svoris, Kalba, Plauku_spalva, Lytis, Akiu_spalva,  fk_lygis__id_lygis) 
+                VALUES ('${newUser.name}', '${newUser.email}', '${newUser.password}', '${newUser.desc}', '0', '${newUser.country}', '${newUser.short_desc}', '${newUser.height}', '${newUser.width}', '${newUser.language}',' ${newUser.hair_col}', '${newUser.gender}', '${newUser.eye_col}','1')`);
+
+            sql.query(`INSERT INTO roles(Data, Komentaras, Role, fk_Naudotojas__id_Naudotojas) 
+                    VALUES (NOW(), 'Vartotojas uzsiregistravo', '2', LAST_INSERT_ID())`);
+                    
+            return res.render("register.ejs", {err_msg: "Registracija sėkminga. Į jūsų el. paštą buvo išsiųstas laiška su patvirinimo nuoroda, tačiau galite prisijungti."});
+            }
+        });
         
-        sql.query(`INSERT INTO Naudotojai(Vardas, Elektroninis_pastas, Slaptazodis, Aprasas, Patirties_taskai,Salis, Trumpas_aprasas, Ugis, Svoris, Kalba, Plauku_spalva, Lytis, Akiu_spalva, fk_lygis__id_lygis) 
-                          VALUES ('${newUser.name}', '${newUser.email}', '${newUser.password}', '${newUser.desc}', '0', '${newUser.country}', '${newUser.short_desc}', '${newUser.height}', '${newUser.width}', '${newUser.language}',' ${newUser.hair_col}', '${newUser.gender}', '${newUser.eye_col}','1')`);
-        
-        sql.query(`INSERT INTO roles( Komentaras, Role, fk_Naudotojas__id_Naudotojas) 
-                          VALUES ('Vartotojas uzsiregistravo', '2', LAST_INSERT_ID())`);
-        return res.redirect("/");                         
+                       
     } catch(error) {
         console.log(error);
     }
 }
 
+let getCommentPage = (req,res) => {
+    res.render("comment.ejs", {msg: ""});
+}
+
+let saveComment = (req, res) => {
+    res.render("comment.ejs", {msg: "Operacija sekmingai atlikta."});
+}
 module.exports = {
     getLoginPage: getLoginPage,
     getRegisterPage: getRegisterPage,
@@ -164,5 +230,8 @@ module.exports = {
     getUpdatePage: getUpdatePage,
     getPowerPage: getPowerPage,
     deleteUser: deleteUser,
-    updateUser: updateUser
+    updateUser: updateUser,
+    powerUser: powerUser,
+    getCommentPage: getCommentPage,
+    saveComment: saveComment
 }

@@ -8,7 +8,8 @@
     </head>
 <body>
     <div class="container">
-        <form class="row">
+        <%= msg %>
+        <form class="row" action="comment/" method="post">
             <h1 class="text-light border-bottom border-secondary p-2">Palikti komentarą - Vartotojas</h1>
             <div class="col-12 p-2">
                 <label class="p-2" for="name">Palikite komentarą...</label>
@@ -17,7 +18,7 @@
             </div>
             
             <div class="col-12 p-2 d-flex justify-content-end">
-                <button class="btn btn-primary text-light bg-dark border-secondary" onclick="alert('Komentaras sekmingai paliktas.');"><a class="text-light" href="index.html">Palikti</a></button>
+                <button class="btn btn-primary text-light bg-dark border-secondary">Palikti</button>
             </div>
         </form>
     </div>
