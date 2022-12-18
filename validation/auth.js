@@ -1,5 +1,3 @@
-const {check} = require("express-validation");
-
 const sql = require("../configs/connect.js")
 
 module.exports = {
