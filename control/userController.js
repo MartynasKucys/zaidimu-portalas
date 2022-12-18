@@ -9,7 +9,23 @@ let getRegisterPage = (req, res ) => {
 };
 
 let getUpdatePage = (req, res) => {
-    return res.render("update.ejs", {id: req.query.id});
+    if(req.query.id == req.session.userID) {
+        let userID = req.query.id;
+        sql.query(`SELECT * FROM Naudotojai WHERE id_Naudotojas='${userID}'`, (error, result) => {
+            if(error) {
+                return console.log(error);
+            }
+            if(result.length > 0) {
+                return res.render("update.ejs", {id: userID, language: result[0].Kalba, height: result[0].Ugis, width: result[0].Svoris, hair_col: result[0].Plauku_spalva, short_desc: result[0].Trumpas_aprasymas, desc: result[0].Aprasas});
+            } else {
+                return res.redirect("/");
+            }
+            
+        })
+    } else {
+        return res.redirect("/");
+    }
+
 }
 
 let  getDeletePage = (req, res) => {
@@ -30,9 +46,35 @@ let deleteUser = (req, res) => {
             if(result.length > 0) {
                 return sql.query(`DELETE * FROM Naudotojai WHERE id_Naudotojas='${req.query.id}'`);
             }
-            return res.redirect('/');
+
         })
     }
+
+    return res.redirect('/');
+}
+
+let updateUser = (req, res) => {
+    let userID = req.session.userID;
+    let id = req.body.id;
+
+    if(userID == id || req.session.userRole == 1) {
+        console.log("ttt");
+        let newData = {
+            language: req.body.lang,
+            height: req.body.height,
+            width: req.body.width,
+            hair: req.body.hair_col,
+            short: req.body.short_desc,
+            desc: req.body.desc
+        }
+        console.log(newData);
+        sql.query(`UPDATE Naudotojai SET Kalba='${newData.language}', Ugis='${newData.height}', Svoris='${newData.width}', Plauku_spalva='${newData.hair}', Trumpas_aprasas='${newData.short}', Aprasas='${newData.desc}'`);
+        return res.redirect('/');
+
+    } else {
+        return res.redirect('/');
+    }
+
 }
 let loginUser = (req, res) => {
     try {
@@ -78,7 +120,6 @@ let getProfilePage = (req,res) => {
         if(result.length > 0) {
 
             let r = result[0];
-            console.log(r);
             return res.render("profile.ejs", {id: userID, name: r.Vardas, desc: r.Aprasas, xp: r.Patirties_taskai, country: r.Salis, short_desc: r.Trumpas_aprasymas, height: r.Ugis, width: r.Svoris, language: r.Kalba, hair: r.Plauku_spalva, gender: r.Lytis, eyes: r.Akiu_spalva, img: r.Nuotrauka, lvl: r.fk_lygis__id_lygis});
         }
         return res.redirect('/');
@@ -122,5 +163,6 @@ module.exports = {
     getDeletePage: getDeletePage,
     getUpdatePage: getUpdatePage,
     getPowerPage: getPowerPage,
-    deleteUser: deleteUser
+    deleteUser: deleteUser,
+    updateUser: updateUser
 }
