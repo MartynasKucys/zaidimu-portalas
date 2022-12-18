@@ -55,7 +55,9 @@
                                 <th><%= data[i]["gameName"]%></th>
                                 <th><%= data[i]["date"] %></th>
                                 <th>Nuoroda</th>
-                                <th> <form action="/removeFavoriteGame" method="post"><button>Pašalinti</button></form></th>
+                                <th> <form action="/removeFavoriteGame" method="post">
+                                    <button value="<%=data[i]["nr"]%>|<%=data[i]["groupId"]%>", name = "gameId">Pašalinti</button>
+                                </form></th>
                             </tr>
 
                         <% var currentId = data[i]["groupId"] %> 
@@ -67,7 +69,9 @@
                                 <th><%= data[i]["gameName"]%></th>
                                 <th><%= data[i]["date"] %></th>
                                 <th>Nuoroda</th>
-                                <th> <form action="/removeFavoriteGame" method="post"><button>Pašalinti</button></form></th>
+                                <th> <form action="/removeFavoriteGame" method="post">
+                                    <button value="<%=data[i]["nr"]%>|<%=data[i]["groupId"]%>" name = "gameId">Pašalinti</button>
+                                </form></th>
                             </tr>
 
 
