@@ -174,9 +174,6 @@ let getProfilePage = (req,res) => {
 }
 let registerNewUser = (req, res) => {
     try {
-
-        const {name, data} = req.files.photo;
-        console.log(req.data);
         let newUser = {
             name: req.body.name,
             password: req.body.password,
