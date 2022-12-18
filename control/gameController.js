@@ -16,11 +16,11 @@ let getGamePage = (req, res) => {
                     reldate: r.Isleidimo_data, playtime: r.Zaidimo_ilgis, diff: r.Sunkumas, 
                     soclink: r.Nuoroda_i_socialinius_tinklus, downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas});
             }
+            else {
+                return res.render("game.ejs", {id: '', name: r.Pavadinimas, crlink: r.Nuoroda_i_kurejo_puslapi, genre: r.Zanras, 
+                reldate: r.Isleidimo_data, playtime: r.Zaidimo_ilgis, diff: r.Sunkumas, soclink: r.Nuoroda_i_socialinius_tinklus, downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas});
+            }  
         }
-        else {
-            return res.render("game.ejs", {name: r.Pavadinimas, crlink: r.Nuoroda_i_kurejo_puslapi, genre: r.Zanras, 
-            reldate: r.Isleidimo_data, playtime: r.Zaidimo_ilgis, diff: r.Sunkumas, soclink: r.Nuoroda_i_socialinius_tinklus, downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas});
-        }  
     })   
 };
 
