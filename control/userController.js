@@ -1,6 +1,16 @@
 const sql = require("../configs/connect.js");
 const auth = require("../validation/auth.js");
-const multer = require("multer");
+const mail = require("nodemailer");
+
+let transporter = mail.createTransport({
+    host: 'smtp.sendgrid.net',
+    port: 587,
+    auth: {
+        user: 'apikey',
+        pass: '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'
+    }
+});
+
 let getLoginPage = (req, res) =>  {
     return res.render("login.ejs", {err_msg: ""});
 };
@@ -33,7 +43,7 @@ let getDeletePage = (req, res) => {
 
 let logoutPage = (req, res) => {
     req.session.destroy();
-    
+
     return res.redirect('/');
 }
 let getPowerPage = (req, res) => {
@@ -179,7 +189,21 @@ let registerNewUser = (req, res) => {
 
             sql.query(`INSERT INTO roles(Data, Komentaras, Role, fk_Naudotojas__id_Naudotojas) 
                     VALUES (NOW(), 'Vartotojas uzsiregistravo', '2', LAST_INSERT_ID())`);
-                    
+            
+            const msg = ({
+                from: "zaidimuportalas42069420@gmail.com",
+                to: "mezencevas.andrius@gmail.com",
+                subject:"ttt",
+                text:"tttt"
+            });
+
+            transporter.sendMail(msg, (err, info) => {
+                if(err) {
+                    console.log(err);
+                }
+
+                console.log('ttt');
+            });
             return res.render("register.ejs", {err_msg: "Registracija sėkminga. Į jūsų el. paštą buvo išsiųstas laiška su patvirinimo nuoroda, tačiau galite prisijungti."});
             }
         });                    
