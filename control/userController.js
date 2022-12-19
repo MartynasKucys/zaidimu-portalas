@@ -61,6 +61,7 @@ let deleteUser = (req, res) => {
                 } 
                 sql.query(`DELETE FROM Naudotojai WHERE id_Naudotojas='${req.body.id}'`);
             }
+            req.session.destroy();
             return res.redirect("/");
         })
     }
