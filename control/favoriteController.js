@@ -1,5 +1,6 @@
 const sql = require("../configs/connect.js");
 
+
 const getFavoriteGroup = (req, res) => {
 
 
@@ -144,11 +145,19 @@ const removeFavoriteOtherGroup = (req, res) =>{
 
     sqlString = "DELETE from `info`.`megstamiausios_megstamiausiu_grupes` \
     where `info`.`megstamiausios_megstamiausiu_grupes`.fk_Megstamiausiu_grupe__id_Megstamiausiu_grupe="+groupId
-
     sql.query(sqlString)
+
 
 }
 
+
+const share = (req, res) =>{
+
+
+
+
+
+}
 
 
 module.exports = {
@@ -157,5 +166,6 @@ module.exports = {
     removeFavoriteGame: removeFavoriteGame,
     removeFavoriteGroup:removeFavoriteGroup,
     addToFavoritesOtherGroup:addToFavoritesOtherGroup,
-    removeFavoriteOtherGroup:removeFavoriteOtherGroup
+    removeFavoriteOtherGroup:removeFavoriteOtherGroup,
+    share:share
 }
