@@ -3,26 +3,27 @@ const sql = require("../configs/connect.js");
 let getGamePage = (req, res) => {
     let userID = req.session.userID;
     let queryID = req.query.id;
-
-    sql.query(`SELECT * FROM Zaidimai WHERE id_Zaidimas='${queryID}'`, (error, result) => {
-        if(error) {
-            return console.log(error);
-        }
-        if (result.length > 0) {
-            let r = result[0];
-            let userFK = r.fk_Naudotojas;
-            if (userID == userFK || req.session.userRole == 1) {
-                return res.render("game.ejs", {id: queryID, name: r.Pavadinimas, crlink: r.Nuoroda_i_kurejo_puslapi, genre: r.Zanras, 
-                    reldate: r.Isleidimo_data, playtime: r.Zaidimo_ilgis, diff: r.Sunkumas, 
-                    soclink: r.Nuoroda_i_socialinius_tinklus, downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas, fit: calculateFitValues(req, res)});
+    let fit = calculateFitValues(req, res, (callback) => {
+        sql.query(`SELECT * FROM Zaidimai WHERE id_Zaidimas='${queryID}'`, (error, result) => {
+            if(error) {
+                return console.log(error);
             }
-            else {
-                return res.render("game.ejs", {id: '', name: r.Pavadinimas, crlink: r.Nuoroda_i_kurejo_puslapi, genre: r.Zanras, 
-                reldate: r.Isleidimo_data, playtime: r.Zaidimo_ilgis, diff: r.Sunkumas, 
-                soclink: r.Nuoroda_i_socialinius_tinklus, downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas, fit: []});
-            }  
-        }
-    })   
+            if (result.length > 0) {
+                let r = result[0];
+                let userFK = r.fk_Naudotojas;
+                if (userID == userFK || req.session.userRole == 1) {
+                    return res.render("game.ejs", {id: queryID, name: r.Pavadinimas, crlink: r.Nuoroda_i_kurejo_puslapi, genre: r.Zanras, 
+                        reldate: r.Isleidimo_data, playtime: r.Zaidimo_ilgis, diff: r.Sunkumas, soclink: r.Nuoroda_i_socialinius_tinklus, 
+                        downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas, fit: callback});
+                }
+                else {
+                    return res.render("game.ejs", {id: '', name: r.Pavadinimas, crlink: r.Nuoroda_i_kurejo_puslapi, genre: r.Zanras, 
+                    reldate: r.Isleidimo_data, playtime: r.Zaidimo_ilgis, diff: r.Sunkumas, 
+                    soclink: r.Nuoroda_i_socialinius_tinklus, downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas, fit: []});
+                }  
+            }
+        }) 
+    });    
 };
 
 let getGameCreationPage = (req, res) => {
@@ -110,7 +111,7 @@ let deleteGame = (req, res) => {
         })
 }
 
-let calculateFitValues = (req, res) => {
+let calculateFitValues = (req, res, callback) => {
     let queryID = req.query.id;
     sql.query(`SELECT * FROM Zaidimai WHERE id_Zaidimas='${queryID}'`, (error, result) => {
         if (error) {
@@ -138,7 +139,7 @@ let calculateFitValues = (req, res) => {
                     // Sort by ascending float value order
                     arr = arr.sort((a, b) => {return a.suitability - b.suitability});
                     console.log(arr);
-                    return arr;
+                    return callback(arr);
                 }
             });               
         }
