@@ -3,7 +3,9 @@ const sql = require("./configs/connect.js");
 const express = require('express'); //Import the express dependency
 const app = express();              //Instantiate an express app, the main work horse of this server
 const port = 5000;                  //Save the port number where your server will be listening
-const {getFavoriteGroup, addFavorite,removeFavoriteGame,removeFavoriteGroup,addToFavoritesOtherGroup,removeFavoriteOtherGroup,share} = require("./control/favoriteController");
+const {getFavoriteGroup, addFavorite,removeFavoriteGame,removeFavoriteGroup,
+    addToFavoritesOtherGroup,removeFavoriteOtherGroup,share,
+    addFavoriteGameForm,addFavoriteGameToNewGroup,addFavoriteGame} = require("./control/favoriteController");
 const {getLoginPage, getRegisterPage, getUpdatePage, logoutPage,
     getDeletePage, registerNewUser, getProfilePage, loginUser, deleteUser, updateUser, getPowerPage, powerUser, getCommentPage, saveComment} = require("./control/userController");
 const {getGamePage, getGameCreationPage, getGameEditPage, getGameRemovePage, createNewGame, editGame, deleteGame, calculateFitValues} = require("./control/gameController");
@@ -54,11 +56,14 @@ app.use(fileUpload());
 
 // Favourites sub-system
 app.get("/favoriteGroup", getFavoriteGroup);
+app.get("/addFavoriteGameForm", addFavoriteGameForm);
+app.post("/addFavoriteGameToNewGroup",addFavoriteGameToNewGroup);
 app.post("/addFavoriteGroup", addFavorite);
 app.post("/removeFavoriteGame",removeFavoriteGame);
 app.post("/removeFavoriteGroup", removeFavoriteGroup);
 app.post("/addToFavoritesOtherGroup", addToFavoritesOtherGroup);
 app.post("/removeFavoriteOtherGroup", removeFavoriteOtherGroup);
+app.post('/addFavoriteGame', addFavoriteGame)
 app.post("/share", share)
 
 
@@ -73,7 +78,7 @@ app.get("/power", getPowerPage);
 app.get("/comment", getCommentPage);
 app.get("/logout", logoutPage);
 // Game management sub-system
-app.get("/game", calculateFitValues);
+app.get("/game", getGamePage);
 app.get("/game_create", getGameCreationPage);
 app.get("/game_edit", getGameEditPage);
 app.get("/game_remove", getGameRemovePage);

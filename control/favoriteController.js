@@ -16,7 +16,12 @@ const getFavoriteGroup = (req, res) => {
 
 
 
-        sqlString = "select info.megstamiausiu_grupes.Pavadinimas as groupName, info.megstamiausi_zaidimai.Ikelimo_data as date, info.zaidimai.Pavadinimas as gameName, info.megstamiausi_zaidimai.Eiles_numeris as nr, info.megstamiausiu_grupes.id_Megstamiausiu_grupe as groupId, info.zaidimai.id_Zaidimas as gameId\
+        sqlString = "select info.megstamiausiu_grupes.Pavadinimas as groupName,\
+         info.megstamiausi_zaidimai.Ikelimo_data as date,\
+          info.zaidimai.Pavadinimas as gameName,\
+           info.megstamiausi_zaidimai.Eiles_numeris as nr,\
+            info.megstamiausiu_grupes.id_Megstamiausiu_grupe as groupId,\
+             info.zaidimai.id_Zaidimas as gameId\
         from info.megstamiausiu_grupes\
         left join info.megstamiausi_zaidimai\
         on info.megstamiausi_zaidimai.fk_Megstamiausiu_grupe__id_Megstamiausiu_grupe=  info.megstamiausiu_grupes.id_Megstamiausiu_grupe\
@@ -159,6 +164,115 @@ const share = (req, res) =>{
 
 }
 
+const addFavoriteGameForm = (req, res) =>{
+
+
+
+
+    values = req.query.gameId.split("|")
+
+    gameId = values[0]
+    userId = values[1]
+
+
+
+    sqlString = "select info.megstamiausiu_grupes.Pavadinimas from info.megstamiausiu_grupes\
+    where info.megstamiausiu_grupes.fk_Naudotojas__id_Naudotojas = " + userId
+
+
+    sql.query(sqlString, function(err, results){
+
+        console.log({gameId:gameId, userId:userId, name:results})
+
+        res.render("favorite_create.ejs", {gameId:gameId, userId:userId, names:results})
+
+
+    })
+
+
+}
+
+
+
+const addFavoriteGameToNewGroup = (req, res) =>{
+
+    groupName = req.body.newGroup
+    parts = req.body.data.split("|")
+    gameId = parts[0]
+    userId = parts[1]
+
+
+    sqlString = "INSERT INTO `info`.`megstamiausiu_grupes` (Pavadinimas, fk_Naudotojas__id_Naudotojas)\
+    VALUES ('"+ groupName+"',"+userId+")"
+
+    sql.query(sqlString)
+
+
+    sqlString = "select info.megstamiausiu_grupes.id_Megstamiausiu_grupe as id from info.megstamiausi_zaidimai \
+    right join info.`megstamiausiu_grupes`\
+    on info.`megstamiausiu_grupes`.id_Megstamiausiu_grupe = info.megstamiausi_zaidimai.fk_Megstamiausiu_grupe__id_Megstamiausiu_grupe\
+    where info.megstamiausiu_grupes.Pavadinimas = '"+groupName+"' and info.megstamiausiu_grupes.fk_Naudotojas__id_Naudotojas =" +userId
+
+    sql.query(sqlString, function (err, results){
+
+        groupId = results[0]["id"]
+
+        console.log(groupId)
+
+        sqlString = "INSERT INTO `info`.`megstamiausi_zaidimai` (Eiles_numeris, fk_Megstamiausiu_grupe__id_Megstamiausiu_grupe, fk_Zaidimas__id_Zaidimas)\
+        VALUES (1, '"+groupId+"', "+gameId+" ) "
+    
+        sql.query(sqlString)
+
+
+        res.redirect("/favoriteGroup?id="+userId)
+
+
+    })
+
+
+
+}
+
+
+const addFavoriteGame = (req, res) =>{
+
+    parts = req.body.data.split("|")
+    gameId = parts[0]
+    userId = parts[1]
+    groupName = req.body.groupName
+
+    
+    sqlString = "select info.megstamiausiu_grupes.id_Megstamiausiu_grupe as id from info.megstamiausi_zaidimai \
+    right join info.`megstamiausiu_grupes`\
+    on info.`megstamiausiu_grupes`.id_Megstamiausiu_grupe = info.megstamiausi_zaidimai.fk_Megstamiausiu_grupe__id_Megstamiausiu_grupe\
+    where info.megstamiausiu_grupes.Pavadinimas = '"+groupName+"' and info.megstamiausiu_grupes.fk_Naudotojas__id_Naudotojas =" +userId
+
+    console.log(sqlString)
+
+    sql.query(sqlString, function (err, results){
+
+        console.log(results)
+        groupId = results[0]["id"]
+
+        console.log(groupId)
+
+        sqlString = "INSERT INTO `info`.`megstamiausi_zaidimai` (Eiles_numeris, fk_Megstamiausiu_grupe__id_Megstamiausiu_grupe, fk_Zaidimas__id_Zaidimas)\
+        VALUES (1, '"+groupId+"', "+gameId+" ) "
+    
+        sql.query(sqlString)
+
+
+        res.redirect("/favoriteGroup?id="+userId)
+
+
+    })
+
+
+
+}
+
+
 
 module.exports = {
     getFavoriteGroup:getFavoriteGroup,
@@ -167,5 +281,8 @@ module.exports = {
     removeFavoriteGroup:removeFavoriteGroup,
     addToFavoritesOtherGroup:addToFavoritesOtherGroup,
     removeFavoriteOtherGroup:removeFavoriteOtherGroup,
-    share:share
+    share:share,
+    addFavoriteGameForm:addFavoriteGameForm,
+    addFavoriteGameToNewGroup:addFavoriteGameToNewGroup,
+    addFavoriteGame:addFavoriteGame
 }

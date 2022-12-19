@@ -76,10 +76,11 @@
 
                         <% if (i < data.length && data[i]["gameName"] != null){ %> 
                             <tr>
+                                <% console.log(data[i]) %> 
                                 <th><%= data[i]["nr"] %></th>
                                 <th><%= data[i]["gameName"]%></th>
                                 <th><%= data[i]["date"] // TODO link to game page %></th>
-                                <th>Nuoroda</th>
+                                <th><a href="/game?id=<%= data[i]["gameId"] %> "> Nuoroda </a></th>
                                 <th> 
                                 <% if (!guest){ %> 
                                     <form action="/removeFavoriteGame" method="post">
@@ -107,7 +108,7 @@
 
                                         <th><%= data[i]["gameName"]%></th>
                                         <th><%= data[i]["date"] // TODO link to game page %></th>
-                                        <th>Nuoroda</th> 
+                                        <th><a href="/game?id=<%= data[i]["gameId"] %> "> Nuoroda </a></th> 
                                         <% if (!guest){ %> 
                                         <th> <form action="/removeFavoriteGame" method="post">
                                             <button value="<%=data[i]["nr"]%>|<%=data[i]["groupId"]%>" name = "gameId">Pašalinti</button>
@@ -176,18 +177,14 @@
     
     
                             <% if (i < otherFavorites.length && otherFavorites[i]["gameName"] != null){ %> 
+                                <% console.log(otherFavorites[i]) %> 
                                 <tr>
                                     <th><%= otherFavorites[i]["nr"] %></th>
                                     <th><%= otherFavorites[i]["gameName"]%></th>
-                                    <th><%= otherFavorites[i]["date"] // TODO link to game page %></th>
-                                    <th>Nuoroda</th>
+                                    <th><%= otherFavorites[i]["data"] // TODO link to game page %></th>
+                                    <th><a href="/game?id=<%= otherFavorites[i]["gameId"] %> "> Nuoroda </a></th>
                                     <th> 
-                                    <% if (!guest){ %> 
-                                        <form action="/removeFavoriteGame" method="post">
-    
-                                        <button value="<%=otherFavorites[i]["nr"]%>|<%=otherFavorites[i]["groupId"]%>", name = "gameId">Pašalinti</button>
-                                    </form>
-                                    <% }%> 
+
                                 </th>
                                 </tr>
     
@@ -207,13 +204,8 @@
     
     
                                             <th><%= otherFavorites[i]["gameName"]%></th>
-                                            <th><%= otherFavorites[i]["date"] // TODO link to game page %></th>
-                                            <th>Nuoroda</th> 
-                                            <% if (!guest){ %> 
-                                            <th> <form action="/removeFavoriteGame" method="post">
-                                                <button value="<%=otherFavorites[i]["nr"]%>|<%=otherFavorites[i]["groupId"]%>" name = "gameId">Pašalinti</button>
-                                            </form>
-                                            <% } %> 
+                                            <th><%= otherFavorites[i]["data"] // TODO link to game page %></th>
+                                            <th> <a href="/game?id=<%= otherFavorites[i]["gameId"] %> "> Nuoroda </a> </th> 
                                         </th>
                                         </tr>
     
