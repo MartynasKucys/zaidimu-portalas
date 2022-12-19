@@ -22,6 +22,9 @@
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "mysql": "^2.18.1",
-    "url": "^0.11.0"
+    "social-media-sharing": "^1.0.2",
+    "twitter": "^1.7.1",
+    "url": "^0.11.0",
+    "web-social-share": "^9.1.0"
   }
 }
