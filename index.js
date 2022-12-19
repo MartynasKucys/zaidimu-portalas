@@ -66,7 +66,7 @@ app.get("/power", getPowerPage);
 app.get("/comment", getCommentPage);
 app.get("/logout", logoutPage);
 // Game management sub-system
-app.get("/game", calculateFitValues);
+app.get("/game", getGamePage);
 app.get("/game_create", getGameCreationPage);
 app.get("/game_edit", getGameEditPage);
 app.get("/game_remove", getGameRemovePage);

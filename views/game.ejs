@@ -106,24 +106,20 @@
 							<th colspan=3 class="text-center text-light h3 p-4">Jums taip pat gali patikti ir:</th>
 						</tr>
 						<tr>
+							<% fit.forEach(i => {%>
 							<th class="text-center">
-								<a class="text-light" href="http://www.google.com">Žaidimas 1</a>
+								<a class="text-light" href="/game?id=<%= i.id %>"><%= i.name %></a>
 							</th>
-							<th class="text-center">
-								<a class="text-light" href="http://www.google.com">Žaidimas 2</a>
-							</th>
-							<th class="text-center">
-								<a class="text-light" href="http://www.google.com">Žaidimas 3</a>
-							</th>
+							<% }) %>
 						</tr>
 					</thead>
-					<tbody>
+					<!-- <tbody>
 						<tr>
 							<td class="text-center"><img class="img-responsive" src="https://unsplash.it/164/90"/></td>
 							<td class="text-center"><img class="img-responsive" src="https://unsplash.it/164/91"/></td>
 							<td class="text-center"><img class="img-responsive" src="https://unsplash.it/164/92"/></td>
 						</tr>
-					</tbody>
+					</tbody> -->
 				</table>		
 			</div>
         </div>

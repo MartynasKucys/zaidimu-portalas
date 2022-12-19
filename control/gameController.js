@@ -14,11 +14,12 @@ let getGamePage = (req, res) => {
             if (userID == userFK || req.session.userRole == 1) {
                 return res.render("game.ejs", {id: queryID, name: r.Pavadinimas, crlink: r.Nuoroda_i_kurejo_puslapi, genre: r.Zanras, 
                     reldate: r.Isleidimo_data, playtime: r.Zaidimo_ilgis, diff: r.Sunkumas, 
-                    soclink: r.Nuoroda_i_socialinius_tinklus, downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas, fit: calculateFitValues});
+                    soclink: r.Nuoroda_i_socialinius_tinklus, downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas, fit: calculateFitValues(req, res)});
             }
             else {
                 return res.render("game.ejs", {id: '', name: r.Pavadinimas, crlink: r.Nuoroda_i_kurejo_puslapi, genre: r.Zanras, 
-                reldate: r.Isleidimo_data, playtime: r.Zaidimo_ilgis, diff: r.Sunkumas, soclink: r.Nuoroda_i_socialinius_tinklus, downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas});
+                reldate: r.Isleidimo_data, playtime: r.Zaidimo_ilgis, diff: r.Sunkumas, 
+                soclink: r.Nuoroda_i_socialinius_tinklus, downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas, fit: []});
             }  
         }
     })   
@@ -129,11 +130,13 @@ let calculateFitValues = (req, res) => {
                         let countedSuitability = Math.sqrt(((i.Sunkumas - r.Sunkumas)**2)+((i.Zanras - r.Zanras)**2)+((i.Zaidimo_ilgis - r.Zaidimo_ilgis)**2));    
                         let finalResult = {
                             suitability: countedSuitability,
-                            id: i.id_Zaidimas
+                            id: i.id_Zaidimas,
+                            name: i.Pavadinimas
                         }           
                         arr.push(finalResult);
                     }
-                    arr.sort();
+                    // Sort by ascending float value order
+                    arr = arr.sort((a, b) => {return a.suitability - b.suitability});
                     console.log(arr);
                     return arr;
                 }
