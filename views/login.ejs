@@ -23,6 +23,12 @@
                 <label for="password">Naudotojo slaptažodis:</label>
                 <input name="password" type="password" class="form-control bg-dark text-light">
             </div>
+            <% if(code == '0')  { %>
+                <div class="col-6 p-2">
+                    <label for="code">Prisijungimo kodas:</label>
+                    <input name="code" type="text" class="form-control bg-dark text-light">
+                </div>
+            <% } %>
             <div class="col-12 p-2 d-flex justify-content-end">
                 <button class="btn btn-primary bg-dark border-secondary">Prisijungti</button>
             </div>
