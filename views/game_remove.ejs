@@ -9,7 +9,7 @@
 <body>
     <script>
         function conf() {
-            var cnf = confirm("Ar norite palikti komentara?");
+            var cnf = confirm("Ar norite palikti komentarą?");
             if(cnf) {
                 window.location.href = "/comment";
             }
@@ -17,14 +17,14 @@
         }
     </script>
     <div class="container">
-        <form class="row" method="post" action="delete/">
+        <form class="row" method="post" action="game_remove/">
             <% if(msg != "") { %>
                 <p><% msg %></p>
             <% } %>
-            <h1 class="text-light border-bottom border-secondary p-2">Ištrinti vartotoją</h1>
+            <h1 class="text-light border-bottom border-secondary p-2">Ištrinti žaidimą</h1>
             
             <div class="col-12 p-2">
-                <label class="p-2" for="name">Ar tikrai norite ištrinti vartotoją?</label>
+                <label class="p-2" for="name">Ar tikrai norite ištrinti žaidimą?</label>
                 <input type="hidden" name="id" value="<%= id %>">
                 <button class="btn btn-primary text-light bg-dark border-secondary">Ištrinti</button>
             </div>

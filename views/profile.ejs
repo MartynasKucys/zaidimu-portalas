@@ -19,13 +19,20 @@
                     <p class="text-light"><%= short_desc %></p>
                     <p class="text-light">Ūgis <%= height %>m</p>
                     <p class="text-light">Svoris <%= width %>kg</p>
-                    <p class="text-light">Akys - <%= eyes %></p>
+                    <p class="text-light">Akių spalva - <%= eyes %></p>
                     <p class="text-light">Kalba - <%= language %></p>
                     <p class="text-light">Plaukai - <%= hair %></p>
-                    <a class="text-light col-12" href="/power">Pakelti į aukštesnę rolę.</a>
-                    <a class="text-light col-12" href="/update?id=<%= id %>">Atnaujinti profilį.</a>
-                    <a class="text-light col-12" href="/delete?id=<%= id %>">Ištrinti profilį.</a>
-                    <a class="text-light col-12" href="favoriteGroup?id=<%= id %>">Mėgstamiausių grupės.</a>
+                    <% if(role == '1')  { %>
+                        <a class="text-light col-12" href="/power?id=<%= id %>">Pakelti į aukštesnę rolę.</a>
+                    <% } %>
+                    <% if (currID == id) { %>
+                        <a class="text-light col-12" href="/update?id=<%= id %>">Atnaujinti profilį.</a>
+                        <a class="text-light col-12" href="/delete?id=<%= id %>">Ištrinti profilį.</a>
+                    <% } else { %>
+                        <a class="text-light col-12" href="/addFriend?id=<%= id %>">Pridėti draugą.</a>
+                    <% } %>
+
+                    <a class="text-light col-12" href="favoriteGroup.html">Mėgstamiausių grupės.</a>
                     <h5 class="text-light p-2 border-bottom border-secondary">Draugai</h5>
                     <div class="col-12 p-2 text-center row">
                         <img class="col-6" src="assets/image/avatar.jpg">
