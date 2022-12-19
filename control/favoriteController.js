@@ -268,19 +268,42 @@ const addFavoriteGame = (req, res) =>{
     console.log(sqlString)
 
     sql.query(sqlString, function (err, results){
-
         console.log(results)
-        groupId = results[0]["id"]
 
-        console.log(groupId)
 
-        sqlString = "INSERT INTO `info`.`megstamiausi_zaidimai` (Eiles_numeris, fk_Megstamiausiu_grupe__id_Megstamiausiu_grupe, fk_Zaidimas__id_Zaidimas)\
-        VALUES (1, '"+groupId+"', "+gameId+" ) "
+        sqlString = "select  max(info.megstamiausi_zaidimai.Eiles_numeris) as max from info.megstamiausi_zaidimai \
+        right join info.`megstamiausiu_grupes`\
+        on info.`megstamiausiu_grupes`.id_Megstamiausiu_grupe = info.megstamiausi_zaidimai.fk_Megstamiausiu_grupe__id_Megstamiausiu_grupe\
+        where info.megstamiausiu_grupes.Pavadinimas = '"+groupName+"' and info.megstamiausiu_grupes.fk_Naudotojas__id_Naudotojas =" +userId
+
+        sql.query(sqlString, function(err, otherRes){
+
+
+            console.log(otherRes)
+
     
-        sql.query(sqlString)
+
+            groupId = results[0]["id"]
+            nr = otherRes[0]["max"]
 
 
-        res.redirect("/favoriteGroup?id="+userId)
+            if (nr === null){
+                nr= 1
+            }else{
+                nr++
+            }
+
+            sqlString = "INSERT INTO `info`.`megstamiausi_zaidimai` (Eiles_numeris, fk_Megstamiausiu_grupe__id_Megstamiausiu_grupe, fk_Zaidimas__id_Zaidimas)\
+            VALUES ("+nr+", '"+groupId+"', "+gameId+" ) "
+        
+            sql.query(sqlString)
+    
+    
+            res.redirect("/favoriteGroup?id="+userId)
+
+
+        })
+
 
 
     })
