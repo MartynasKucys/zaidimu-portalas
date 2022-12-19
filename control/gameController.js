@@ -17,7 +17,7 @@ let getGamePage = (req, res) => {
                         downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas, fit: callback});
                 }
                 else {
-                    return res.render("game.ejs", {id: '', name: r.Pavadinimas, crlink: r.Nuoroda_i_kurejo_puslapi, genre: r.Zanras, 
+                    return res.render("game.ejs", {gameID:queryID,userID:userID, id: '', name: r.Pavadinimas, crlink: r.Nuoroda_i_kurejo_puslapi, genre: r.Zanras, 
                     reldate: r.Isleidimo_data, playtime: r.Zaidimo_ilgis, diff: r.Sunkumas, 
                     soclink: r.Nuoroda_i_socialinius_tinklus, downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas, fit: []});
                 }  
