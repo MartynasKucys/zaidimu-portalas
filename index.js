@@ -6,7 +6,7 @@ const port = 5000;                  //Save the port number where your server wil
 const {getFavoriteGroup, addFavorite,removeFavoriteGame,removeFavoriteGroup,addToFavoritesOtherGroup,removeFavoriteOtherGroup} = require("./control/favoriteController");
 const {getLoginPage, getRegisterPage, getUpdatePage, logoutPage,
     getDeletePage, registerNewUser, getProfilePage, loginUser, deleteUser, updateUser, getPowerPage, powerUser, getCommentPage, saveComment} = require("./control/userController");
-const {getGamePage, getGameCreationPage, getGameEditPage, getGameRemovePage, createNewGame, editGame, deleteGame} = require("./control/gameController");
+const {getGamePage, getGameCreationPage, getGameEditPage, getGameRemovePage, createNewGame, editGame, deleteGame, calculateFitValues} = require("./control/gameController");
 const bodyParser = require("body-parser");
 const sessions = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -66,7 +66,7 @@ app.get("/power", getPowerPage);
 app.get("/comment", getCommentPage);
 app.get("/logout", logoutPage);
 // Game management sub-system
-app.get("/game", getGamePage);
+app.get("/game", calculateFitValues);
 app.get("/game_create", getGameCreationPage);
 app.get("/game_edit", getGameEditPage);
 app.get("/game_remove", getGameRemovePage);

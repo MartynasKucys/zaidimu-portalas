@@ -14,7 +14,7 @@ let getGamePage = (req, res) => {
             if (userID == userFK || req.session.userRole == 1) {
                 return res.render("game.ejs", {id: queryID, name: r.Pavadinimas, crlink: r.Nuoroda_i_kurejo_puslapi, genre: r.Zanras, 
                     reldate: r.Isleidimo_data, playtime: r.Zaidimo_ilgis, diff: r.Sunkumas, 
-                    soclink: r.Nuoroda_i_socialinius_tinklus, downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas});
+                    soclink: r.Nuoroda_i_socialinius_tinklus, downlink: r.Nuoroda_i_atsisiuntima, desc: r.Aprasas, fit: calculateFitValues});
             }
             else {
                 return res.render("game.ejs", {id: '', name: r.Pavadinimas, crlink: r.Nuoroda_i_kurejo_puslapi, genre: r.Zanras, 
@@ -109,6 +109,39 @@ let deleteGame = (req, res) => {
         })
 }
 
+let calculateFitValues = (req, res) => {
+    let queryID = req.query.id;
+    sql.query(`SELECT * FROM Zaidimai WHERE id_Zaidimas='${queryID}'`, (error, result) => {
+        if (error) {
+            return console.log(error);
+        }
+        if (result.length > 0) {
+            let r = result[0];
+            sql.query(`SELECT * FROM Zaidimai`, (error, result) => {
+                if (error) {
+                    return console.log(error);
+                }
+                if (result.length > 0) {
+                    let arr = [];
+                    for (let i of result) {
+                        if (i.id_Zaidimas == r.id_Zaidimas)
+                            continue;
+                        let countedSuitability = Math.sqrt(((i.Sunkumas - r.Sunkumas)**2)+((i.Zanras - r.Zanras)**2)+((i.Zaidimo_ilgis - r.Zaidimo_ilgis)**2));    
+                        let finalResult = {
+                            suitability: countedSuitability,
+                            id: i.id_Zaidimas
+                        }           
+                        arr.push(finalResult);
+                    }
+                    arr.sort();
+                    console.log(arr);
+                    return arr;
+                }
+            });               
+        }
+    });
+}
+
 module.exports = {
     getGamePage: getGamePage,
     getGameCreationPage: getGameCreationPage,
@@ -116,5 +149,6 @@ module.exports = {
     getGameRemovePage: getGameRemovePage,
     createNewGame: createNewGame,
     editGame: editGame,
-    deleteGame: deleteGame
+    deleteGame: deleteGame,
+    calculateFitValues: calculateFitValues
 }
