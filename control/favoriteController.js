@@ -1,5 +1,4 @@
 const sql = require("../configs/connect.js");
-const Twitter = require("twitter")
 
 
 const getFavoriteGroup = (req, res) => {
