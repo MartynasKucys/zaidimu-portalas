@@ -120,6 +120,23 @@ const removeFavoriteGroup = (req, res) => {
 
     groupId = req.body.removeGroupButton
 
+    sqlString = "delete FROM info.megstamiausi_zaidimai\
+    where info.megstamiausi_zaidimai.fk_Megstamiausiu_grupe__id_Megstamiausiu_grupe =" + groupId
+
+
+    sql.query(sqlString)
+
+
+
+    sqlString = "delete FROM info.megstamiausios_megstamiausiu_grupes\
+    where info.megstamiausios_megstamiausiu_grupes.fk_Megstamiausiu_grupe__id_Megstamiausiu_grupe =" + groupId
+
+
+    sql.query(sqlString)
+
+
+
+
 
     sqlString = "delete from info.megstamiausiu_grupes\
     where info.megstamiausiu_grupes.id_Megstamiausiu_grupe = " + groupId
