@@ -12,8 +12,10 @@ let transporter = mail.createTransport({
 });
 
 let getLoginPage = (req, res) =>  {
-    return res.render("login.ejs", {err_msg: ""});
+    return res.render("login.ejs", {err_msg: "", code:0});
 };
+
+let codes = [];
 
 let getRegisterPage = (req, res ) => {
     return res.render("register.ejs", {err_msg: []});
@@ -43,7 +45,7 @@ let getDeletePage = (req, res) => {
 
 let logoutPage = (req, res) => {
     req.session.destroy();
-
+    codes = [];
     return res.redirect('/');
 }
 let getPowerPage = (req, res) => {
@@ -105,6 +107,9 @@ let powerUser = (req, res) => {
 
 let loginUser = (req, res) => {
     try {
+
+
+
         let name = req.body.name;
         let password = req.body.password;
         sql.query(`SELECT * FROM Naudotojai WHERE Vardas='${name}' AND Slaptazodis='${password}'`, (err, result) => {
@@ -114,17 +119,60 @@ let loginUser = (req, res) => {
             if(result.length > 0) {
                 //session.id = result.id;
                 let userID = result[0].id_Naudotojas;
+                console.log(userID);
                 req.session.userID = userID;
+
+                let code = Math.floor(1000 + Math.random() * 9000);
+                    
+
+
+
+                let userInfo = {
+                    userID: userID,
+                    code: code
+                }
+
+                if(!codes.find(x => x.userID == userID)) {
+                    codes.push(userInfo);
+                    res.render("login.ejs", {err_msg: "Neteisingas prisijungimo kodas! Jeigu kodo nevedėte, į jūsų el. paštą išsiuntėme laišką su kodu.", code: 0});
+
+                    const msg = ({
+                        from: "zaidimu_portalas@email.com",
+                        to: result[0].Elektroninis_pastas,
+                        subject:"Zaidimu portalas | Prisijungimo kodas",
+                        text:`Sveiki, džiugu jus matyti mūsų portale. Prisijungimo kodas yra ${code}.`
+                    });
+    
+                    transporter.sendMail(msg, (error, response) => {
+                        if(error) {
+                            return console.log(error);
+                        }
+    
+                        console.log(response);
+                        console.log(codes);
+                    });
+                }
+
+
                 sql.query(`SELECT * FROM roles WHERE fk_Naudotojas__id_Naudotojas='${userID}'`, (err,result) => {
                     if(err) {
                        return console.log(err);
                     }   
-                    console.log(result[0]);
+
+
                     req.session.userRole = result[0].Role;
-                    return res.redirect('/');   
+
+                    if(req.body.code){
+                        if(codes.find(x => x.code == req.body.code)) {
+                            return res.redirect("/");
+                        } else {
+                            return res.render("login.ejs", {err_msg: "Neteisingas prisijungimo kodas! Jeigu kodo nevedėte, į jūsų el. paštą išsiuntėme laišką su kodu.", code: 0});
+                        }
+                    }
+
                 });
             } else {
-                res.render("login.ejs", {err_msg: "Toks vartotojas neegzistuoja!"});
+                res.render("login.ejs", {err_msg: "Toks vartotojas neegzistuoja!,", code: 0});
             }
         });
     } catch {
@@ -192,17 +240,17 @@ let registerNewUser = (req, res) => {
             
             const msg = ({
                 from: "zaidimuportalas42069420@gmail.com",
-                to: "mezencevas.andrius@gmail.com",
-                subject:"ttt",
-                text:"tttt"
+                to: newUser.email,
+                subject:"Sveikiname užsiregistravus prie mūsų portalo!",
+                text:"Sveiki, džiugu jus matyti mūsų portale. Galite pasitvirtinti su šia nuoroda: http://localhost:5000/"
             });
 
-            transporter.sendMail(msg, (err, info) => {
-                if(err) {
-                    console.log(err);
+            transporter.sendMail(msg, (error, info) => {
+                if(error) {
+                    console.log(error);
                 }
 
-                console.log('ttt');
+                console.log(info);
             });
             return res.render("register.ejs", {err_msg: "Registracija sėkminga. Į jūsų el. paštą buvo išsiųstas laiška su patvirinimo nuoroda, tačiau galite prisijungti."});
             }
